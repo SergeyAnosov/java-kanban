@@ -1,16 +1,27 @@
+package tasks;
+
+import constants.Status;
+
 import java.util.Objects;
 
 public class Task {
-    private String name;
-    private String extraInfo;
-    private int id;
-    private Status status;
-    protected static int countOfTask = 0;
+    protected int id;
+    protected String name;
+    protected Status status;
+    protected String extraInfo;
 
-    public Task() {
+    public Task(String name, Status status, String extraInfo) {
+        this.name = name;
+        this.status = status;
+        this.extraInfo = extraInfo;
+    }
 
-        countOfTask += 1;
-        this.id = countOfTask;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -21,14 +32,6 @@ public class Task {
         this.name = name;
     }
 
-    public String getExtraInfo() {
-        return extraInfo;
-    }
-
-    public void setExtraInfo(String extraInfo) {
-        this.extraInfo = extraInfo;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -37,8 +40,12 @@ public class Task {
         this.status = status;
     }
 
-    public static int getCountOfTask() {
-        return countOfTask;
+    public String getExtraInfo() {
+        return extraInfo;
+    }
+
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
     }
 
     @Override
@@ -64,15 +71,11 @@ public class Task {
 
     @Override
     public String toString() {
-        String result = "Task{" +
-                "name='" + name + '\'';
-            if (extraInfo != null) {
-                result = result + ", extraInfo.length=" + extraInfo.length();
-            } else {
-                result = result + ", extraInfo=null";
-            }
-            return result + ", id=" + id +
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", status=" + status +
+                ", extraInfo='" + extraInfo + '\'' +
                 '}';
     }
 }
