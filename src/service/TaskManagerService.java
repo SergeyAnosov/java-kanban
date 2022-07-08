@@ -16,16 +16,19 @@ public class TaskManagerService {
     private Map<Integer, SubTask> subTasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
 
-    private int generator = 0;
+    private static int taskGenerator = 0;
+    private static int epicGenerator = 0;
+    private static int subTaskGenerator = 0;
+
 
     public void addTask(Task task) {     // пункт 2.4 ТЗ Создание
-        int taskId = generator++;
+        int taskId = taskGenerator++;
         task.setId(taskId);
         tasks.put(taskId, task);
     }
 
     public void addEpic(Epic epic) {     // пункт 2.4 ТЗ Создание
-        int epicId = generator++;
+        int epicId = epicGenerator++;
         epic.setId(epicId);
         epics.put(epicId, epic);
         updateEpicStatus(epic);
@@ -38,7 +41,7 @@ public class TaskManagerService {
             return;
         }
 
-        int subTaskId = generator++;
+        int subTaskId = subTaskGenerator++;
         subTask.setId(subTaskId);
         subTasks.put(subTaskId, subTask);
         epic.addSubtask(subTaskId);
@@ -75,6 +78,24 @@ public class TaskManagerService {
                 epic.setStatus(Status.DONE);
             }
         }
+
+        // чужой метод, разобраться потом.
+        /*public void updateEpicStatus(Epic epic) {
+            if (epics.isEmpty()) {
+                epic.setStatus(Status.NEW);
+            } else {
+                epic.setStatus(Status.IN_PROGRESS);
+            }
+            if (epics.containsValue(Status.NEW)) {
+                epic.setStatus(Status.NEW);
+            }
+            if (epics.containsValue(Status.DONE)
+                    && (!epics.containsValue(Status.NEW)
+                    || !epics.containsValue(Status.IN_PROGRESS))) {
+                epic.setStatus(Status.DONE);
+            }
+        }*/
+
     }
 
     public void removeAllTasks() {    // пункт ТЗ 2.2 Удаление Тасков
@@ -153,7 +174,7 @@ public class TaskManagerService {
                 "tasks=" + tasks +
                 ", subTasks=" + subTasks +
                 ", epics=" + epics +
-                ", generator=" + generator +
+                ", generator=" + taskGenerator +
                 '}';
     }
 }
