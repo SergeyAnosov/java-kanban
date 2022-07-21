@@ -5,11 +5,12 @@ import constants.Status;
 public class SubTask extends Task {
     private int epicId;
     private static int subTaskGenerator = 0;
+    protected int subTaskId;
 
     public SubTask(String name, Status status, String extraInfo, int epicId) {
         super(name, status, extraInfo);
         this.epicId = epicId;
-        subTaskGenerator++;
+        subTaskId = subTaskGenerator++;
     }
 
     public int getEpicId() {
@@ -22,10 +23,10 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "S" + id;
+        return "S" + subTaskId;
     }
 
-    public static int getSubTaskGenerator() {
-        return subTaskGenerator;
+    public int getSubTaskId() {
+        return subTaskId;
     }
 }

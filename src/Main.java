@@ -23,9 +23,9 @@ public class Main {
         taskManager.addEpic(new Epic("Epic2", Status.IN_PROGRESS, "extra2"));
         taskManager.addEpic(new Epic("Epic3", Status.DONE, "extra3"));
 
-        taskManager.addSubTask(new SubTask("SubTask1", Status.NEW, "extra1", 1));
-        taskManager.addSubTask(new SubTask("SubTask2", Status.IN_PROGRESS, "extra2", 2));
-        taskManager.addSubTask(new SubTask("SubTask3", Status.IN_PROGRESS, "extra2", 2));
+        taskManager.addSubTask(new SubTask("SubTask1", Status.NEW, "extra1", 2));
+        taskManager.addSubTask(new SubTask("SubTask2", Status.IN_PROGRESS, "extra2", 1));
+        taskManager.addSubTask(new SubTask("SubTask3", Status.IN_PROGRESS, "extra2", 0));
 
         System.out.println("----------------------------------------------------------------------------------------");
 
@@ -42,9 +42,8 @@ public class Main {
         taskManager.getEpic(2);
         taskManager.getEpic(1);
         taskManager.getEpic(0);
-        taskManager.getEpic(2);
-        taskManager.getEpic(2);
-        taskManager.getEpic(2);
+
+
 
         System.out.println(taskManager.getHistory());
 

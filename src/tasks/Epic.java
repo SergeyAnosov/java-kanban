@@ -7,11 +7,12 @@ import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subTaskIds = new ArrayList<>();
+    protected int epicId;
     private static int epicGenerator = 0;
 
     public Epic(String name, Status status, String extraInfo) {
         super(name, status, extraInfo);
-        epicGenerator++;
+        epicId = epicGenerator++;
     }
 
     public void addSubtask(int subTaskId) {
@@ -28,10 +29,10 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "E" + id;
+        return "E" + epicId;
     }
 
-    public static int getEpicGenerator() {
-        return epicGenerator;
+    public int getEpicId() {
+        return epicId;
     }
 }

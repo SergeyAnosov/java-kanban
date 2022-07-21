@@ -16,15 +16,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
-        int taskId = Task.getTaskGenerator();
-        task.setId(taskId);
-        tasks.put(taskId, task);
+        tasks.put(task.getTaskId(), task);
     }
 
     @Override
     public void addEpic(Epic epic) {
-        int epicId = Epic.getEpicGenerator();
-        epic.setId(epicId);
+        int epicId = epic.getEpicId();
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -37,8 +34,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        int subTaskId = SubTask.getSubTaskGenerator();
-        subTask.setId(subTaskId);
+        int subTaskId = subTask.getSubTaskId();
         subTasks.put(subTaskId, subTask);
         epic.addSubtask(subTaskId);
         updateEpicStatus(epic);
@@ -172,13 +168,5 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    @Override
-    public String toString() {
-        return "TaskManagerService{" +
-                "tasks=" + tasks +
-                ", subTasks=" + subTasks +
-                ", epics=" + epics +
-                ", generator=" + taskGenerator +
-                '}';
-    }
+
 }

@@ -5,7 +5,7 @@ import constants.Status;
 import java.util.Objects;
 
 public class Task {
-    protected int id;
+    protected int taskId;
     protected String name;
     protected Status status;
     protected String extraInfo;
@@ -15,15 +15,11 @@ public class Task {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
-        taskGenerator++;
+        taskId = taskGenerator++;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public int getTaskId() {
+        return taskId;
     }
 
     public String getName() {
@@ -55,7 +51,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id && Objects.equals(name, task.name) && status == task.status;
+        return taskId == task.taskId && Objects.equals(name, task.name) && status == task.status;
     }
 
     @Override
@@ -73,10 +69,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "T" + id ;
+        return "T" + taskId;
     }
 
-    public static int getTaskGenerator() {
-        return taskGenerator;
-    }
+
 }
