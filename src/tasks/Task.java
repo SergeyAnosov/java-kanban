@@ -9,11 +9,13 @@ public class Task {
     protected String name;
     protected Status status;
     protected String extraInfo;
+    private static int taskGenerator = 0;
 
     public Task(String name, Status status, String extraInfo) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
+        taskGenerator++;
     }
 
     public int getId() {
@@ -72,5 +74,9 @@ public class Task {
     @Override
     public String toString() {
         return "T" + id ;
+    }
+
+    public static int getTaskGenerator() {
+        return taskGenerator;
     }
 }
