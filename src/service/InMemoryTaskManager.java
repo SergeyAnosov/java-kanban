@@ -5,7 +5,11 @@ import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>();
@@ -16,12 +20,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
-        tasks.put(task.getTaskId(), task);
+        tasks.put(task.getId(), task);
     }
 
     @Override
     public void addEpic(Epic epic) {
-        int epicId = epic.getEpicId();
+        int epicId = epic.getId();
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -34,7 +38,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        int subTaskId = subTask.getSubTaskId();
+        int subTaskId = subTask.getId();
         subTasks.put(subTaskId, subTask);
         epic.addSubtask(subTaskId);
         updateEpicStatus(epic);
@@ -97,25 +101,29 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(int taskId) {
-        historyManager.add(tasks.get(taskId));    //добавление в историю
-        return tasks.get(taskId);
+        if (tasks.containsKey(taskId)) {
+            historyManager.add(tasks.get(taskId));
+            return tasks.get(taskId);
+        }
+        return null;
     }
 
     @Override
     public Epic getEpic(int epicId) {
-        historyManager.add(epics.get(epicId));    //добавление в историю
+        historyManager.add(epics.get(epicId));
         return epics.get(epicId);
     }
 
     @Override
     public SubTask getSubTask(int subTaskId) {
-        historyManager.add(subTasks.get(subTaskId));   //добавление в историю
+        historyManager.add(subTasks.get(subTaskId));
         return subTasks.get(subTaskId);
     }
 
     @Override
-    public void deleteTask(int taskId) {    // пункт ТЗ 2.6 Удаление по идентификатору
+    public void deleteTask(int taskId) {
         tasks.remove(taskId);
+        historyManager.remove(taskId);
     }
 
     @Override
@@ -163,7 +171,7 @@ public class InMemoryTaskManager implements TaskManager {
         return subTaskList;
     }
 
-    @Override                           //  ТЗ 4. Список с историей
+    @Override
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }

@@ -9,25 +9,18 @@ public class Task {
     protected String name;
     protected Status status;
     protected String extraInfo;
-    private static int taskGenerator = 0;
+    private static int taskIdGenerator = 0;
 
     public Task(String name, Status status, String extraInfo) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
-        taskId = taskGenerator++;
+        taskId = taskIdGenerator;
+        taskIdGenerator++;
     }
 
-    public int getTaskId() {
+    public int getId() {
         return taskId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Status getStatus() {
@@ -36,14 +29,6 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getExtraInfo() {
-        return extraInfo;
-    }
-
-    public void setExtraInfo(String extraInfo) {
-        this.extraInfo = extraInfo;
     }
 
     @Override
@@ -72,5 +57,11 @@ public class Task {
         return "T" + taskId;
     }
 
+    public static int getTaskIdGenerator() {
+        return taskIdGenerator;
+    }
 
+    public static void setTaskIdGenerator(int taskIdGenerator) {
+        Task.taskIdGenerator = taskIdGenerator;
+    }
 }
