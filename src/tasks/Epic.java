@@ -9,14 +9,16 @@ public class Epic extends Task {
     private List<Integer> subTaskIds = new ArrayList<>();
     protected int epicId;
 
-
-
     public Epic(String name, Status status, String extraInfo) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;        
         epicId = getTaskIdGenerator();
         setTaskIdGenerator(epicId++);
+    }
+    
+     public int getId() {
+        return epicId;
     }
 
     public void addSubtask(int subTaskId) {
@@ -35,10 +37,4 @@ public class Epic extends Task {
     public String toString() {
         return "E" + epicId;
     }
-
-    public int getId() {
-        return epicId;
-    }
-
-
 }
