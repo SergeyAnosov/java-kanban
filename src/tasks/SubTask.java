@@ -9,10 +9,12 @@ public class SubTask extends Task {
 
 
     public SubTask(String name, Status status, String extraInfo, int epicId) {
-        super(name, status, extraInfo);
+        this.name = name;
+        this.status = status;
+        this.extraInfo = extraInfo;   
         this.epicId = epicId;
         subTaskId = getTaskIdGenerator();
-        setTaskIdGenerator(subTaskId);
+        setTaskIdGenerator(subTaskId++);
     }
 
     public int getEpicId() {
