@@ -32,13 +32,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node node = new Node(task, last, null);
        
         if (first == null) {
-            last = node;
-            first = node;
+           last = node;
+           first = node;
+           node.prev = null;
+           node.next = null;
 
         } else {
-            last.next = node;
-            node.prev = last;
-            last = node;
+           last.next = node;
+           node.prev = last;
+           node.next = null;
+           last = node;
         }
     }
    
