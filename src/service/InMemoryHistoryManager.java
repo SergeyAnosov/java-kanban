@@ -12,16 +12,25 @@ public class InMemoryHistoryManager implements HistoryManager {
 
 
 
-   //ÒÇ 5
+   //Ã’Ã‡ 5
 
     private final Map<Integer, Node> nodeMap = new HashMap();
     private Node first;
     private Node last;
+   
+    @Override
+    public void add(Task task) {
+        if (task == null) {
+            return;
+        }
+        // removeNode(task.getId());
+        linkLast(task);
+        nodeMap.put(task.getId(), last);
+    }
 
     private void linkLast(Task task) {
-
         Node node = new Node(task, last, null);
-
+       
         if (first == null) {
             last = node;
             first = node;
@@ -32,16 +41,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             last = node;
         }
     }
-
-    @Override
-    public void add(Task task) {
-        if (task == null) {
-            return;
-        }
-        removeNode(task.getId());
-        linkLast(task);
-        nodeMap.put(task.getId(), last);
-    }
+   
 
     @Override
     public void remove(int id) {
