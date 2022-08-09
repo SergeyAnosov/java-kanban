@@ -54,12 +54,10 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
         if (remove.prev == null) {
-            remove.next = first;
-            remove.task = null;
+            remove.next = first;            
         }
         if (remove.next == null) {
-            remove.prev = last;
-            remove.task = null;
+            remove.prev = last;            
         }
 
         if (remove.prev != null && remove.next != null) {
@@ -71,8 +69,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
             remove.next = null;
             remove.prev = null;
-            remove.task = null;
-
         }
     }
 
