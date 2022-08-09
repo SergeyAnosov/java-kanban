@@ -15,8 +15,8 @@ public class Task {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
-        taskId = taskIdGenerator;
-        taskIdGenerator++;
+        taskId = taskIdGenerator++;
+       
     }
 
     public int getId() {
