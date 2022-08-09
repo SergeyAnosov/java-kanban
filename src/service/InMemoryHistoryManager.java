@@ -79,14 +79,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
 
         List<Task> list = new ArrayList<>();
+        
         list.add(first.task);
-
-        Node node = first.next;
-        while (node.next == null) {
-            list.add(node.next.task);
-            node.next = node;
-        }
-
+         
+           while (first.next != null) {
+                list.add(first.next.task);
+                first = first.next;
+            }
+        
         return list;
     }
 
