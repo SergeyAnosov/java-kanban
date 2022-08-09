@@ -6,8 +6,6 @@ public class SubTask extends Task {
     protected int epicId;
     protected int subTaskId;
 
-
-
     public SubTask(String name, Status status, String extraInfo, int epicId) {
         this.name = name;
         this.status = status;
@@ -15,6 +13,10 @@ public class SubTask extends Task {
         this.epicId = epicId;
         subTaskId = getTaskIdGenerator();
         setTaskIdGenerator(subTaskId++);
+    }
+    
+    public int getId() {
+        return subTaskId;
     }
 
     public int getEpicId() {
@@ -25,8 +27,5 @@ public class SubTask extends Task {
     public String toString() {
         return "S" + subTaskId;
     }
-
-    public int getId() {
-        return subTaskId;
-    }
+    
 }
