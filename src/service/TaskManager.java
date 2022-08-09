@@ -50,6 +50,12 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
+    Task getTaskById(int taskId);
+
+    Epic getEpicById(int epicId);
+
+    SubTask getSubTaskById(int subTaskId);
+
 
 
 

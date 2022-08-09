@@ -14,14 +14,14 @@ public class Epic extends Task {
         this.status = status;
         this.extraInfo = extraInfo;        
         epicId = getTaskIdGenerator();
-        setTaskIdGenerator(epicId++);
+        setTaskIdGenerator(epicId + 1);
     }
     
      public int getId() {
         return epicId;
     }
 
-    public void addSubtask(int subTaskId) {
+    public void addSubtaskId(int subTaskId) {
         subTaskIds.add(subTaskId);
     }
 

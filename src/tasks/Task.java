@@ -11,6 +11,10 @@ public class Task {
     protected String extraInfo;
     private static int taskIdGenerator = 0;
 
+    public Task() {
+
+    }
+
     public Task(String name, Status status, String extraInfo) {
         this.name = name;
         this.status = status;

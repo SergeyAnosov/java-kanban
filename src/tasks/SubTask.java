@@ -12,7 +12,7 @@ public class SubTask extends Task {
         this.extraInfo = extraInfo;   
         this.epicId = epicId;
         subTaskId = getTaskIdGenerator();
-        setTaskIdGenerator(subTaskId++);
+        setTaskIdGenerator(subTaskId + 1);
     }
     
     public int getId() {
