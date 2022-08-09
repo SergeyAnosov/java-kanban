@@ -1,7 +1,6 @@
 package service;
 
 import constants.Status;
-import org.w3c.dom.Node;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
@@ -22,19 +21,19 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int taskId) {
         Task task = tasks.get(taskId);
-        historyManager.addToMap(task);
+        historyManager.addToHistoryMap(task);
         return task;
     }
 
     @Override
     public Epic getEpicById(int epicId) {
-        historyManager.addToMap(epics.get(epicId));
+        historyManager.addToHistoryMap(epics.get(epicId));
         return epics.get(epicId);
     }
 
     @Override
     public SubTask getSubTaskById(int subTaskId) {
-        historyManager.addToMap(subTasks.get(subTaskId));
+        historyManager.addToHistoryMap(subTasks.get(subTaskId));
         return subTasks.get(subTaskId);
     }
 

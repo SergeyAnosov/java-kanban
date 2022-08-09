@@ -17,7 +17,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     protected Node last;
    
     @Override
-    public void addToMap(Task task) {
+    public void addToHistoryMap(Task task) {
         if (task == null) {
             return;
         }
@@ -77,13 +77,14 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
 
         List<Task> list = new ArrayList<>();
-        list.add(first.task);
 
-        Node node = first;
-           while (node.next != null) {
+            list.add(first.task);
+            Node node = first;
+            while (node.next != null) {
                 list.add(node.next.task);
-               node = node.next;
+                node = node.next;
             }
+
         return list;
     }
 
