@@ -12,9 +12,11 @@ public class Epic extends Task {
 
 
     public Epic(String name, Status status, String extraInfo) {
-        super(name, status, extraInfo);
-        epicId = getTaskIdGenerator() - 1;
-        setTaskIdGenerator(epicId);
+        this.name = name;
+        this.status = status;
+        this.extraInfo = extraInfo;        
+        epicId = getTaskIdGenerator();
+        setTaskIdGenerator(epicId++);
     }
 
     public void addSubtask(int subTaskId) {
