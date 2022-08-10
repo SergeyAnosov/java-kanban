@@ -60,9 +60,20 @@ public class Main {
         taskManager.getSubTaskById(8);
         taskManager.getSubTaskById(9);
 
-
         System.out.print("Распечатываю историю: ");
         System.out.println(taskManager.getHistory());
+        System.out.println("----------------------------------------------------------------------------------------");
+        System.out.println("Удаляем Таски с id 0, 1");
+        taskManager.deleteTask(0);
+        taskManager.deleteTask(1);
+        System.out.print("Распечатываю историю: ");
+        System.out.println(taskManager.getHistory());
+        System.out.println("Удаляем SubTask 8");
+        taskManager.deleteSubTask(8);
+        System.out.print("Распечатываю историю: ");
+        System.out.println(taskManager.getHistory());
+
+
 
 
     }

@@ -36,8 +36,6 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.addToHistoryMap(subTasks.get(subTaskId));
         return subTasks.get(subTaskId);
     }
-
-
     
     @Override
     public Task getTask(int taskId) {
@@ -98,20 +96,21 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpicStatus(Epic epic) {
-        List<SubTask> subs = getSubTasksFromEpic(epic.getId());
-
-        if (subs.isEmpty()) {
+        List<Integer> subTaskIds = epic.getSubTaskIds();
+        if (subTaskIds.isEmpty()) {
             epic.setStatus(Status.DONE);
         }
-        for (SubTask sub : subs) {
-            if (sub.getStatus() == Status.NEW) {
+        for (Integer subTaskId : subTaskIds) {
+            SubTask subTask = getSubTask(subTaskId);
+            if (subTask.getStatus() == Status.NEW) {
                 epic.setStatus(Status.NEW);
-            } else if (sub.getStatus() == Status.IN_PROGRESS) {
+            } else if (subTask.getStatus() == Status.IN_PROGRESS) {
                 epic.setStatus(Status.IN_PROGRESS);
-            } else if (sub.getStatus() == Status.DONE) {
+            } else if (subTask.getStatus() == Status.DONE) {
                 epic.setStatus(Status.DONE);
             }
         }
+
     }
 
     @Override
@@ -134,22 +133,31 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTask(int taskId) {
-        tasks.remove(taskId);
         historyManager.remove(taskId);
+        tasks.remove(taskId);
+
     }
 
     @Override
-    public void deleteEpic(int epicId) {    // ïóíêò ÒÇ 2.6 Óäàëåíèå ïî èäåíòèôèêàòîðó
+    public void deleteEpic(int epicId) {
+        historyManager.remove(epicId);
         epics.remove(epicId);
+        List<SubTask> subs = getSubTasksFromEpic(epicId);
+        for (SubTask sub : subs) {
+            historyManager.remove(sub.getId());
+        }
+
     }
 
     @Override
     public void deleteSubTask(int subTaskId) {
+        historyManager.remove(subTaskId);
         subTasks.remove(subTaskId);
         SubTask subTask = getSubTask(subTaskId);
         int epicId = subTask.getEpicId();
         Epic epic = getEpic(epicId);
         updateEpicStatus(epic);
+
     }
 
     @Override
