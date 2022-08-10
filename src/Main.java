@@ -52,6 +52,8 @@ public class Main {
         taskManager.getEpicById(5);
         taskManager.getEpicById(6);
         taskManager.getEpicById(5);
+        taskManager.getEpicById(5);
+        taskManager.getEpicById(5);
 
         taskManager.getSubTaskById(7);
         taskManager.getSubTaskById(8);

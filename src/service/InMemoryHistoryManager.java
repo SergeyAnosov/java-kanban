@@ -29,10 +29,10 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private void linkLast(Task task) {
          Node node = new Node(task, last, null);
-            
         if (first == null) {
            last = node;
            first = node;
+
          } else {           
             node.prev = last;
             last.next = node;
@@ -47,26 +47,21 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void removeNode(int id) {
-        Node remove = nodeMap.remove(id);
-                if (remove == null) {
+         Node remove = nodeMap.remove(id);
+               if (remove == null) {
                     return;
-                }
-                if (remove.prev == null) {
-                     remove.next = first;            
-                }
-                if (remove.next == null) {
-                     remove.prev = last;            
-                }
-        
+               }
                 if (remove.prev != null && remove.next != null) {
-                    Node left = remove.prev;
-                    Node right = remove.next;
-        
-                    left.next = right;
-                    right.prev = left;
-        
-                    remove.next = null;
-                    remove.prev = null;                    
+                        Node left = remove.prev;
+                        Node right = remove.next;
+
+                        left.next = right;
+                        right.prev = left;
+
+                } else if (remove.prev == null) {
+                    first = remove.next;
+                } else if (remove.next == null) {
+                    last = remove.prev;
                 }
     }
 
@@ -105,21 +100,5 @@ public class InMemoryHistoryManager implements HistoryManager {
                     ", next=" + (next != null ? next.task : null) +
                     '}';
         }
-    }
-
-    public Node getFirst() {
-        return first;
-    }
-
-    public void setFirst(Node first) {
-        this.first = first;
-    }
-
-    public Node getLast() {
-        return last;
-    }
-
-    public void setLast(Node last) {
-        this.last = last;
     }
 }
