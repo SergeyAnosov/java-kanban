@@ -110,6 +110,32 @@ public class InMemoryTaskManager implements TaskManager {
                 epic.setStatus(Status.DONE);
             }
         }
+        
+        /* Билунова Елена
+            // надо попробовать прикрутить
+            int countSubtasks = getEpicSubtasks(epic).size();
+            int counterNEW = 0;
+            int counterDONE = 0;
+
+            if (getEpicSubtasks(epic).isEmpty()) {
+                epic.setStatus(Status.NEW);
+            }
+            for (Subtask sub : getEpicSubtasks(epic)) {
+                if (sub.getStatus().equals(Status.NEW)) {
+                    counterNEW += 1;
+                } else if (sub.getStatus().equals(Status.DONE)) {
+                    counterDONE += 1;
+                }
+            }
+            if (counterNEW == countSubtasks) {
+                epic.setStatus(Status.NEW);
+            } else if (counterDONE == countSubtasks) {
+                epic.setStatus(Status.DONE);
+            } else {
+                epic.setStatus(Status.IN_PROGRESS);
+            }
+    
+    */
 
     }
 
