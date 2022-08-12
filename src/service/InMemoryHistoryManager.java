@@ -1,5 +1,4 @@
 package service;
-
 import tasks.Task;
 
 import java.util.Map;
@@ -7,12 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class InMemoryHistoryManager implements HistoryManager {
 
    //ТЗ 5
-
-    private final Map<Integer, Node> nodeMap = new HashMap();
+   
+    private final Map<Integer, Node> nodeMap = new HashMap<>();
     protected Node first;
     protected Node last;
    
@@ -49,30 +47,28 @@ public class InMemoryHistoryManager implements HistoryManager {
     private void removeNode(int id) {
 
          Node remove = nodeMap.remove(id);
-               if (remove == null) {
-                    return;
-               }
-                if (remove.prev != null && remove.next != null) {
-                        Node left = remove.prev;
-                        Node right = remove.next;
-                        remove.prev = null;
-                        remove.next = null;
+         if (remove == null) {
+            return;
+         }
+            if (remove.prev != null && remove.next != null) {
+               Node left = remove.prev;
+               Node right = remove.next;
+               remove.prev = null;
+               remove.next = null;
+               left.next = right;
+               right.prev = left;
 
-                        left.next = right;
-                        right.prev = left;
-
-                } else if (remove == first) {
-                    first = remove.next;
-                    first.prev = null;
-                } else if (remove == last) {
-                    last = remove.prev;
-                    last.next = null;
-                }
+            } else if (remove == first) {
+               first = remove.next;
+               first.prev = null;
+            } else if (remove == last) {
+               last = remove.prev;
+               ast.next = null;
+         }
     }
 
     @Override
     public List<Task> getHistory() {
-
         List<Task> list = new ArrayList<>();
 
             Node node = first;
@@ -80,8 +76,7 @@ public class InMemoryHistoryManager implements HistoryManager {
                 list.add(node.task);
                 node = node.next;
             }
-
-        return list;
+       return list;
     }
 
     private static class Node {
