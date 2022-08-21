@@ -37,4 +37,8 @@ public class Epic extends Task {
     public String toString() {
         return "E" + epicId;
     }
+
+    public TaskType getTaskType() {
+        return TaskType.EPIC;
+    }
 }

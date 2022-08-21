@@ -63,7 +63,7 @@ public class InMemoryHistoryManager implements HistoryManager {
                first.prev = null;
             } else if (remove == last) {
                last = remove.prev;
-               ast.next = null;
+               last.next = null;
          }
     }
 

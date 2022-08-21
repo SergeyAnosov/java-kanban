@@ -68,4 +68,8 @@ public class Task {
     public static void setTaskIdGenerator(int taskIdGenerator) {
         Task.taskIdGenerator = taskIdGenerator;
     }
+
+    public TaskType getTaskType() {
+        return TaskType.TASK;
+    }
 }

@@ -27,5 +27,9 @@ public class SubTask extends Task {
     public String toString() {
         return "S" + subTaskId;
     }
+
+    public TaskType getTaskType() {
+        return TaskType.SUB_TASK;
+    }
     
 }
