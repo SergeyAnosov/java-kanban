@@ -50,6 +50,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     
     // метод создания задачи из строки
     public Task fromString(String value) {
+         Task task = new Task(0, null, null);
+	        String[] str = value.split(",");	        
+	        
+	        task.taskId = Integer.parseInt(str[0]);
+	        task.name = str[2];
+	        task.extraInfo = str[4];
+	        return task;        
     }
     
     // статический метод историю в строку
