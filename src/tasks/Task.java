@@ -1,6 +1,7 @@
 package tasks;
 
 import constants.Status;
+import constants.TaskType;
 
 import java.util.Objects;
 
@@ -71,5 +72,13 @@ public class Task {
 
     public TaskType getTaskType() {
         return TaskType.TASK;
+    }
+
+    public String getExtraInfo() {
+        return extraInfo;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -1,5 +1,6 @@
+import Interfaces.TaskManager;
+import Utils.Managers;
 import constants.Status;
-import service.*;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
@@ -11,7 +12,7 @@ public class Main {
 
         //ТЗ 5
 
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager taskManager = Managers.getDefaultBacked();
 
         taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
         taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "extra2"));
@@ -19,20 +20,20 @@ public class Main {
         taskManager.addTask(new Task("Task3", Status.IN_PROGRESS, "extra2"));
         taskManager.addTask(new Task("Task4", Status.NEW, "extra1"));
 
-        System.out.print("Создали список Taskoв: ");
-        System.out.println(taskManager.getTasks());
+       /* System.out.print("Создали список Taskoв: ");
+        System.out.println(taskManager.getTasks());*/
 
         taskManager.addEpic(new Epic("Epic5", Status.NEW, "extra1"));
         taskManager.addEpic(new Epic("Epic6", Status.IN_PROGRESS, "extra2"));
 
-        System.out.print("Создали список Epicов: ");
-        System.out.println(taskManager.getEpics());
+       /* System.out.print("Создали список Epicов: ");
+        System.out.println(taskManager.getEpics());*/
 
         taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 5));
         taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 5));
         taskManager.addSubTask(new SubTask("SubTask9", Status.IN_PROGRESS, "extra2", 5));
 
-        System.out.print("Создали список SubTaskов: ");
+        /*System.out.print("Создали список SubTaskов: ");
         System.out.println(taskManager.getSubTasks());
 
         System.out.println("----------------------------------------------------------------------------------------");
@@ -54,7 +55,7 @@ public class Main {
 
 
         System.out.println("Удаляем Таски с id 0, 1");
-        taskManager.deleteTask(3);
+        taskManager.deleteTask(0);
         taskManager.deleteTask(1);
         System.out.print("Распечатываю историю (должны пропасть Task 3,1: ");
         System.out.println(taskManager.getHistory());
@@ -62,7 +63,7 @@ public class Main {
         System.out.println("Удаляю Эпик 5");
         taskManager.deleteEpic(5);
         System.out.print("Распечатываю историю (должны пропасть SubTask 7,8,9: ");
-        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.getHistory());*/
 
     }
 }
