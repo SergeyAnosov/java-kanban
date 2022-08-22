@@ -1,5 +1,8 @@
 package service;
 
+import Interfaces.HistoryManager;
+import Interfaces.TaskManager;
+import Utils.Managers;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
@@ -9,10 +12,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private final File file;
+
+    public FileBackedTasksManager(File file) {
+        this.file = file;
+    }
 
     @Override
     public void addTask(Task task) {  // переопределить все методы с добавлением save();
@@ -38,19 +46,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         save();
     }
 
-    /*public void addTask(Task task) {
-		final int id = task.getId();
-		switch (task.getTaskType()) {
-			case TASK -> tasks.put(id, task);
-			case SUB_TASK -> subTasks.put(id, (SubTask) task);
-			case EPIC -> epics.put(id, (Epic) task);
-		}
-	} */
-
-    public FileBackedTasksManager(File file) {
-        this.file = file;
-    }
-
     private void save() {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
@@ -61,7 +56,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             addTasksToFile(bufferedWriter, tasks.values());
             addEpicsToFile(bufferedWriter, epics.values());
             addSubTasksToFile(bufferedWriter, subTasks.values());
-
+            bufferedWriter.newLine();
+            bufferedWriter.write(historyToString(historyManager));
 
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка!");
@@ -92,7 +88,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             bufferedWriter.newLine();
         }
     }
-
     
     // метод создания задачи из строки
    /* public Task fromString(String value) {
@@ -105,11 +100,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	        return task;        
     }*/
     
-    /*// статический метод историю в строку
-    public static String historyToString(HistoryManager manager) {        
+    // статический метод историю в строку
+    public static String historyToString(HistoryManager historyManager) {
+        StringBuilder sb = new StringBuilder();
+        String s;
+        List<Task> list = historyManager.getHistory();
+        for (Task task : list) {
+            sb.append((task.getId() + ","));
+        }
+        //sb.deleteCharAt(sb.length() - 1);
+        s = sb.toString();
+        return s;
     }
     
-    // статический метод для восстановления менеджера истории из файла CSV
+    /*// статический метод для восстановления менеджера истории из файла CSV
     public static List<Integer> historyFromString(String value) {
     }
     
