@@ -15,6 +15,16 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     @Override
     public void addTask(Task task) {  // переопределить все методы с добавлением save();
         super.addTask(task);
+	    
+	   /*  private void addTask(Task task) {
+		final int id = task.getId();
+		switch (task.getType()) {
+			case TASK -> tasks.put(id, task);
+			case SUBTASK -> subtasks.put(id, (Subtask) task);
+			case EPIC -> epics.put(id, (Epic) task);
+		}
+	} */
+	    
         save();
     }  
 
