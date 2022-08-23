@@ -10,11 +10,7 @@ public class Task {
     protected String name;
     protected Status status;
     protected String extraInfo;
-    private static int taskIdGenerator = 0;
-
-    public Task() {
-
-    }
+    private static int taskIdGenerator = 0;  
 
     public Task(String name, Status status, String extraInfo) {
         this.name = name;
@@ -34,9 +30,26 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }  
+
+    public static void setTaskIdGenerator(int taskIdGenerator) {
+        Task.taskIdGenerator = taskIdGenerator;
     }
 
-    @Override
+    public TaskType getTaskType() {
+        return TaskType.TASK;
+    }
+
+    public String getExtraInfo() {
+        return extraInfo;
+    }
+
+    public String getName() {
+        return name;
+    }
+    
+    
+      @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -64,21 +77,5 @@ public class Task {
 
     public static int getTaskIdGenerator() {
         return taskIdGenerator;
-    }
-
-    public static void setTaskIdGenerator(int taskIdGenerator) {
-        Task.taskIdGenerator = taskIdGenerator;
-    }
-
-    public TaskType getTaskType() {
-        return TaskType.TASK;
-    }
-
-    public String getExtraInfo() {
-        return extraInfo;
-    }
-
-    public String getName() {
-        return name;
     }
 }
