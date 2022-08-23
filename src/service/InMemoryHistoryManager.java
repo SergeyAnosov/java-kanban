@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final Map<Integer, Node> nodeMap = new HashMap<>();
+    protected final Map<Integer, Node> nodeMap = new HashMap<>();
     protected Node first;
     protected Node last;
     CustomLinkedList taskList = new CustomLinkedList();

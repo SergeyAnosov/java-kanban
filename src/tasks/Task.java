@@ -17,7 +17,9 @@ public class Task {
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
-       
+    }
+
+    public Task() {
     }
 
     public int getId() {
@@ -47,9 +49,8 @@ public class Task {
     public String getName() {
         return name;
     }
-    
-    
-      @Override
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -19,34 +19,36 @@ public class Main {
         taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "extra2"));
         taskManager.addTask(new Task("Task2", Status.NEW, "extra1"));
         taskManager.addTask(new Task("Task3", Status.IN_PROGRESS, "extra2"));
-        taskManager.addTask(new Task("Task4", Status.NEW, "extra1"));
-
-
-        TaskManager taskManager1 = Managers.getDefaultBacked();
-
-        taskManager1.addTask(new Task("Task0", Status.NEW, "extra1"));
-        taskManager1.addTask(new Task("Task1", Status.IN_PROGRESS, "extra2"));
-        taskManager1.addTask(new Task("Task2", Status.NEW, "extra1"));
-        taskManager1.addTask(new Task("Task3", Status.IN_PROGRESS, "extra2"));
-        taskManager1.addTask(new Task("Task4", Status.NEW, "extra1"));
-
-
-
-            System.out.print("Создали список Taskoв: ");
-        System.out.println(taskManager.getTasks());
+       taskManager.addTask(new Task("Task4", Status.NEW, "extra1"));
 
         taskManager.addEpic(new Epic("Epic5", Status.NEW, "extra1"));
         taskManager.addEpic(new Epic("Epic6", Status.IN_PROGRESS, "extra2"));
-
-        System.out.print("Создали список Epicов: ");
-        System.out.println(taskManager.getEpics());
 
         taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 5));
         taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 5));
         taskManager.addSubTask(new SubTask("SubTask9", Status.IN_PROGRESS, "extra2", 5));
 
-        System.out.print("Создали список SubTaskов: ");
-        System.out.println(taskManager.getSubTasks());
+
+
+
+        System.out.println("----------------------------------------------------------------------------------------");
+
+        taskManager.getTaskById(0);
+        taskManager.getTaskById(2);
+        taskManager.getTaskById(2);
+
+        System.out.println(taskManager.getHistory());;
+
+        taskManager.getEpicById(5);
+        taskManager.getEpicById(6);
+
+        System.out.println(taskManager.getHistory());;
+
+        taskManager.getSubTaskById(7);
+        taskManager.getSubTaskById(8);
+        taskManager.getSubTaskById(9);
+
+        System.out.println(taskManager.getHistory());;
 
 
 

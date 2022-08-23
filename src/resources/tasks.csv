@@ -1,9 +1,13 @@
 id,type,name,status,description,epic
-5,TASK,Task0,NEW,extra1
-6,TASK,Task1,IN_PROGRESS,extra2
-7,TASK,Task2,NEW,extra1
-8,TASK,Task3,IN_PROGRESS,extra2
-9,TASK,Task4,NEW,extra1
-12,EPIC,Epic5,NEW,extra1
-13,EPIC,Epic6,NEW,extra2
+0,TASK,Task0,NEW,extra1
+1,TASK,Task1,IN_PROGRESS,extra2
+2,TASK,Task2,NEW,extra1
+3,TASK,Task3,IN_PROGRESS,extra2
+4,TASK,Task4,NEW,extra1
+5,EPIC,Epic5,IN_PROGRESS,extra1
+6,EPIC,Epic6,NEW,extra2
+7,SUB_TASK,SubTask7,NEW,extra1,5
+8,SUB_TASK,SubTask8,IN_PROGRESS,extra2,5
+9,SUB_TASK,SubTask9,IN_PROGRESS,extra2,5
 
+0,2,5,6,7,8,9
