@@ -120,6 +120,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     // метод который восстанавливает данные менеджера из файла при запуске программы
     public static FileBackedTaskManager loadFromFile(File file) {
     }*/
+	
+	// пишем один общий метод
+	public String toString(Task task) {
+		switch (task.getTaskType()) {
+            case TASK -> tasks.put(id, task);
+            case SUB_TASK -> subTasks.put(id, (SubTask) task);
+            case EPIC -> epics.put(id, (Epic) task);
+		
+		if (task.getTaskType() == TASK || task.getTaskType() == EPIC) {
+		    return  task.getId() +  "," + task.getTaskType() + "," + task.getName() + "," + task.getStatus() + "," + task.getExtraInfo();
+		} if (task.getTaskType() == SUB_TASK) {
+		    return (SubTask)task.getId() +  "," + (SubTask)task.getTaskType() + "," + (SubTask)task.getName() + ","
+			    + (SubTask)task.getStatus() + "," + (SubTask)task.getExtraInfo() + (SubTask)task.getEpicId();
+		}
+	}
 
     public String taskToString(Task task) {
         return  task.getId() +  "," + task.getTaskType() + "," + task.getName() + "," + task.getStatus() + "," + task.getExtraInfo();
