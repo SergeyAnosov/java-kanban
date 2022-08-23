@@ -98,7 +98,21 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	        task.taskId = Integer.parseInt(str[0]);
 	        task.name = str[2];
 	        task.extraInfo = str[4];
-	        return task;        
+	        return task;  
+		
+		//разобраться
+		 String[] lines = contentOfFile.split("\n");
+        for (int j = 1; j < lines.length; j++) {
+            String[] content = lines[j].split(",");
+
+            String itemName = content[0];
+            boolean isExpense = Boolean.parseBoolean(content[1]);
+            int quantity = Integer.parseInt(content[2]);
+            int sumOfOne = Integer.parseInt(content[3]);
+
+            MonthlyRecord monthlyRecord = new MonthlyRecord(itemName, isExpense, quantity, sumOfOne);
+
+            monthlyReport.addRecord(monthlyRecord);
     }*/
     
     // статический метод историю в строку
