@@ -11,14 +11,15 @@ import java.io.File;
 public class Managers {
     
     public static TaskManager getDefault() {
-        return new InMemoryTaskManager();
+        //return new InMemoryTaskManager();
+        return new FileBackedTasksManager(new File("src/resources/tasks.csv"));        
     }
     
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
 
-    public static TaskManager getDefaultBacked() {
+    /*public static TaskManager getDefaultBacked() {
         return new FileBackedTasksManager(new File("src/resources/tasks.csv"));
-    }
+    }*/
 }
