@@ -2,7 +2,6 @@ package tasks;
 
 import constants.Status;
 import constants.TaskType;
-
 import java.util.Objects;
 
 public class Task {
@@ -35,12 +34,12 @@ public class Task {
     }
 
     public void setStatus(Status status) {
-        this.status = status;
-    }  
+        //this.status = status;
+    ;}
 
-    /*public static void setTaskIdGenerator(int taskIdGenerator) {
+    public static void setTaskIdGenerator(int taskIdGenerator) {
         Task.taskIdGenerator = taskIdGenerator;
-    } */
+    }
 
     public TaskType getTaskType() {
         return TaskType.TASK;
