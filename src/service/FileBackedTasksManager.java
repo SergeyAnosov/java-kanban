@@ -99,12 +99,15 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	 String[] content = value.split(",");
 	    if (content[1].equals(TaskType.TASK)) {
 		Task task = new Task(content[2], content[3], content[4]);
+		task.setId(content[0]);
 		return task;
 	    } else if (content[1].equals(TaskType.EPIC)) {
 		Task task = new Epic(content[2], content[3], content[4]);
+		task.setId(content[0]);
 		return task;
 	    } else if (content[1].equals(TaskType.SUB_TASK)) {
 		Task task = new SubTask(content[2], content[3], content[4], Integer.parseInt.(content[5]));
+		task.setId(content[0]);
 		return task;
 	    }
 	    return null;
