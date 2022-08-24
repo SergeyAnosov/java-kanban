@@ -25,6 +25,10 @@ public class Task {
     public int getId() {
         return taskId;
     }
+    
+    public void setId(int id) {
+        taskId = id;
+    }
 
     public Status getStatus() {
         return status;
@@ -34,9 +38,9 @@ public class Task {
         this.status = status;
     }  
 
-    public static void setTaskIdGenerator(int taskIdGenerator) {
+    /*public static void setTaskIdGenerator(int taskIdGenerator) {
         Task.taskIdGenerator = taskIdGenerator;
-    }
+    } */
 
     public TaskType getTaskType() {
         return TaskType.TASK;
