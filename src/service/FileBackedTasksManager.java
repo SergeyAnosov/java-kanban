@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
@@ -142,18 +143,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
     
     // статический метод для восстановления менеджера истории из файла CSV
-    public static List<Integer> historyFromString(String value) {
+    public static List<Integer> historyFromString(String value) {	    
 	    if (value.isEmpty()) {
-	        return;
+	        return null;
 	    }
-	    List<Integer> list = new ArrayList<>();
-	    
+	    List<Integer> list = new ArrayList<>();	    
 	    String[] content = value.split(",");
-	    Int[] array = new Int[content.length];
+	    Integer[] array = new Integer[content.length];
 	    for (int i = 0; i < content.length; i++) {
 	        array[i] = Integer.parseInt(content[i]);
 	    }	    
-	     Collections.addAll(list, array);
+	    Collections.addAll(list, array);
 	    return list;	    
     }
 	
