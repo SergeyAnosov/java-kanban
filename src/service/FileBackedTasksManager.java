@@ -141,10 +141,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             return s;
     }
     
-    /*// статический метод для восстановления менеджера истории из файла CSV
+    // статический метод для восстановления менеджера истории из файла CSV
     public static List<Integer> historyFromString(String value) {
+	    if (value.isEmpty()) {
+	        return;
+	    }
+	    List<Integer> list = new ArrayList<>();
+	    
+	    String[] content = value.split(",");
+	    Int[] array = new Int[content.length];
+	    for (int i = 0; i < content.length; i++) {
+	        array[i] = Integer.parseInt(content[i]);
+	    }	    
+	     Collections.addAll(list, array);
+	    return list;	    
     }
-    
+	
+    /*
     // метод который восстанавливает данные менеджера из файла при запуске программы
     public static FileBackedTaskManager loadFromFile(File file) {
     }*/
