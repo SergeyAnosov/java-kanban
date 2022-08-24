@@ -17,9 +17,5 @@ public class Managers {
     
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
-    }
-
-    /*public static TaskManager getDefaultBacked() {
-        return new FileBackedTasksManager(new File("src/resources/tasks.csv"));
-    }*/
+    }    
 }
