@@ -170,16 +170,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	   Path path = Paths.get(file);
 	    
 	   try (Reader fileReader = new FileReader(path);
-	   BufferedReader bf = new BufferedReader(fileReader)) {
+	   BufferedReader br = new BufferedReader(fileReader)) {
+		   List<Integer> listHistory = new ArrayList<>();
 		   	    
 		   while (br.ready()) {
 			if (!line.isEmpty()) {   
 				String line = br.readLine(); 
-				fromString(line);
-			} else {
-				br.skip(1);
-			String lineHis = br.readLine();	
-			historyFromString(lineHis);
+				Task task = fromString(line);
+			} 
+			br.readLine();
+			String history = br.readLine();	
+			listHistory = historyFromString(history);
 		   }
 		   
 		   
