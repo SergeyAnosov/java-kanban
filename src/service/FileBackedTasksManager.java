@@ -91,16 +91,25 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
     
     // метод создания задачи из строки
-   /* public Task fromString(String value) {
-         Task task = new Task(0, null, null);
-	        String[] str = value.split(",");	        
-	        
-	        task.taskId = Integer.parseInt(str[0]);
-	        task.name = str[2];
-	        task.extraInfo = str[4];
-	        return task;  
+    public Task fromString(String value) {
+	    if (value.isEmpty()) {
+		    return;
+	    }
+	 String[] content = value.split(",");
+	    if (content[1].equals(TaskType.TASK)) {
+		Task task = new Task(content[2], content[3], content[4]);
+		return task;
+	    } else if (content[1].equals(TaskType.EPIC)) {
+		Task task = new Epic(content[2], content[3], content[4]);
+		return task;
+	    } else if (content[1].equals(TaskType.SUB_TASK)) {
+		Task task = new SubTask(content[2], content[3], content[4], Integer.parseInt.(content[5]));
+		return task;
+	    }
+	    return null;
+    }      
 		
-		//разобраться
+        /*    //разобраться
 		 String[] lines = contentOfFile.split("\n");
         for (int j = 1; j < lines.length; j++) {
             String[] content = lines[j].split(",");
@@ -113,7 +122,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             MonthlyRecord monthlyRecord = new MonthlyRecord(itemName, isExpense, quantity, sumOfOne);
 
             monthlyReport.addRecord(monthlyRecord);
-    }*/
+    }  */
+	
     
     // статический метод историю в строку
     public static String historyToString(HistoryManager historyManager) {
