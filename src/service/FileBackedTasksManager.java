@@ -62,7 +62,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             bufferedWriter.write(s);
 
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка записи");
+            throw new ManagerSaveException("Ошибка записи в файл");
         }
     }    
     
@@ -93,23 +93,24 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     
     // метод создания задачи из строки
     public Task fromString(String value) {
-	    if (value.isEmpty()) {
-		    return;
+	    if (!value.isEmpty()) {	   
+	    
+		 String[] content = value.split(",");
+		    if (content[1].equals(TaskType.TASK)) {
+			Task task = new Task(content[2], content[3], content[4]);
+			task.setId(content[0]);
+			return task;
+		    } else if (content[1].equals(TaskType.EPIC)) {
+			Task task = new Epic(content[2], content[3], content[4]);
+			task.setId(content[0]);
+			return task;
+		    } else if (content[1].equals(TaskType.SUB_TASK)) {
+			Task task = new SubTask(content[2], content[3], content[4], Integer.parseInt.(content[5]));
+			task.setId(content[0]);
+			return task;
+		    }
 	    }
-	 String[] content = value.split(",");
-	    if (content[1].equals(TaskType.TASK)) {
-		Task task = new Task(content[2], content[3], content[4]);
-		task.setId(content[0]);
-		return task;
-	    } else if (content[1].equals(TaskType.EPIC)) {
-		Task task = new Epic(content[2], content[3], content[4]);
-		task.setId(content[0]);
-		return task;
-	    } else if (content[1].equals(TaskType.SUB_TASK)) {
-		Task task = new SubTask(content[2], content[3], content[4], Integer.parseInt.(content[5]));
-		task.setId(content[0]);
-		return task;
-	    }
+    
 	    return null;
     }      
 		
@@ -160,10 +161,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	    return list;	    
     }
 	
-    /*
+    
     // метод который восстанавливает данные менеджера из файла при запуске программы
     public static FileBackedTaskManager loadFromFile(File file) {
-    }*/
+	    if (file.isFile() == false) {
+	        return;
+	    }
+	   Path path = Paths.get(file);
+	    
+	   try (Reader fileReader = new FileReader(path);
+	   BufferedReader bf = new BufferedReader(fileReader)) {
+		   	    
+		   while (br.ready()) {
+			if (!line.isEmpty()) {   
+				String line = br.readLine(); 
+				fromString(line);
+			} else {
+				br.skip(1);
+			String lineHis = br.readLine();	
+			historyFromString(lineHis);
+		   }
+		   
+		   
+	   } catch (IOException e) {
+		   throw new ManagerSaveException("Ошибка чтения из файла");
+        }
+	   
+    }
 	
 	// пишем один общий метод
 	/*public <T extends Task> String toString(Task task) {
