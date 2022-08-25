@@ -234,6 +234,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             BufferedReader br = new BufferedReader(fileReader, StandardCharsets.UTF_8)) {
 		   	    
 		   while (br.ready()) {
+			br.readLine();
 			String line = br.readLine();
 			       if (!line.startsWith("id")) {
 				   Task task = fileBackedTasksManager.fromString(line);
