@@ -26,43 +26,34 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
 
-                // çàïèñü â ôàéë
+                // этот блок нужен только для заполнения файла. При втором запуске его нужно занести в аннотацию
                 TaskManager taskManager = Managers.getDefault();
-
+	    
                 taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
-                taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "extra2"));
-                taskManager.addTask(new Task("Task2", Status.NEW, "extra1"));
-                taskManager.addTask(new Task("Task3", Status.IN_PROGRESS, "extra2"));
-                taskManager.addTask(new Task("Task4", Status.NEW, "extra1"));
-
-                System.out.print("Ñîçäàëè ñïèñîê Taskoâ: ");
-                System.out.println(taskManager.getTasks());
-
+                taskManager.addTask(new Task("Task777", Status.IN_PROGRESS, "77777777"));               
+               
                 taskManager.addEpic(new Epic("Epic5", Status.NEW, "extra1"));
-                taskManager.addEpic(new Epic("Epic6", Status.IN_PROGRESS, "extra2"));
+                taskManager.addEpic(new Epic("Epic6", Status.IN_PROGRESS, "extra2"));               
 
-                System.out.print("Ñîçäàëè ñïèñîê Epicîâ: ");
-                System.out.println(taskManager.getEpics());
-
-                taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 6));
-                taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 6));
-                taskManager.addSubTask(new SubTask("SubTask9", Status.IN_PROGRESS, "extra2", 6));
-
-                System.out.print("Ñîçäàëè ñïèñîê SubTaskîâ: ");
-                System.out.println(taskManager.getSubTasks());
-
+                taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 2));
+                taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 2));
+	    
+	    	System.out.println(taskManager.getTasks());	
+		System.out.println(taskManager.getEpics());	    
+		System.out.println(taskManager.getSubTasks());
+	    
                 taskManager.getTaskById(0);
-                taskManager.getTaskById(2);
-                taskManager.getTaskById(2);
+                taskManager.getTaskById(1);
+                taskManager.getTaskById(0);
 
-                taskManager.getEpicById(5);
-                taskManager.getEpicById(6);
+                taskManager.getEpicById(3);
+                taskManager.getEpicById(2);
 
-                taskManager.getSubTaskById(7);
-                taskManager.getSubTaskById(8);
-                taskManager.getSubTaskById(9);
+                taskManager.getSubTaskById(5);
+                taskManager.getSubTaskById(4);                
 
                 System.out.println(taskManager.getHistory());
+	    	System.out.println("Файл создан и заполнен");
 
                 System.out.println("_________________________________________________________________________________");
 
