@@ -164,14 +164,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	    if (!value.isEmpty()) {	   
 	    
 		 String[] content = value.split(",");
-		    if (content[1].equals("TASK")) {
-                if (content[3].equals("NEW")) {
-                    Status status = Status.NEW;
-                } else if (content[3].equals("IN_PROGRESS")) {
-                    Status status = Status.IN_PROGRESS;
-                } else if (content[3].equals("DONE")) {
-                    Status status = Status.DONE;
-                }
+		    if (content[1].equals("TASK")) {                
 			Task task = new Task(content[2], switchStatus(content[3]), content[4]);
 			task.setId(Integer.parseInt(content[0]));
 			return task;
@@ -238,52 +231,56 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	    
 	   try (Reader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader, StandardCharsets.UTF_8)) {
-
 		   	    
 		   while (br.ready()) {
-				String line = br.readLine();
-               if (!line.startsWith("id")) {
-                   Task task = fileBackedTasksManager.fromString(line);
-                   if (task != null) {
-                       switch (task.getTaskType()) {
-                           case TASK:
-                               fileBackedTasksManager.addTask(task);
-                               break;
-                           case EPIC:
-                               fileBackedTasksManager.addEpic((Epic) task);
-                               break;
-                           case SUB_TASK:
-                               fileBackedTasksManager.addSubTask((SubTask) task);
-                               break;
-                       }
-                   }
-               } else if (line.isBlank()) {
-                   br.readLine();
-                   String history = br.readLine();
-                   List<Integer> listHistory = historyFromString(history);
-                   for (Integer integer : listHistory) {
-                       Task task = fileBackedTasksManager.getTaskById(integer);
-                       if (task != null) {
-                           switch (task.getTaskType()) {
-                               case TASK:
-                                   fileBackedTasksManager.getTask(integer);
-                                   break;
-                               case EPIC:
-                                   fileBackedTasksManager.getEpic(integer);
-                                   break;
-                               case SUB_TASK:
-                                   fileBackedTasksManager.getSubTask(integer);
-                                   break;
-                           }
-                       }
-                   }
-			}
-           }
-		   
+			String line = br.readLine();
+			       if (!line.startsWith("id")) {
+				   Task task = fileBackedTasksManager.fromString(line);
+				   if (task != null) {
+				       switch (task.getTaskType()) {
+					   case TASK:
+					       fileBackedTasksManager.addTask(task);
+					       break;
+					   case EPIC:
+					       fileBackedTasksManager.addEpic((Epic) task);
+					       break;
+					   case SUB_TASK:
+					       fileBackedTasksManager.addSubTask((SubTask) task);
+					       break;
+				       }
+				   }
+			       } else if (line.isBlank()) {
+				   br.readLine();
+				   String history = br.readLine();
+				   List<Integer> listHistory = historyFromString(history);
+				   int maxId = 0;
+				   for (Integer integer : listHistory) {
+					if (integer > maxId) {
+					maxId = Integer;
+					}
+				       Task task = fileBackedTasksManager.getTaskById(integer);
+				       if (task != null) {
+					   switch (task.getTaskType()) {
+					       case TASK:
+						   fileBackedTasksManager.getTask(integer);
+						   break;
+					       case EPIC:
+						   fileBackedTasksManager.getEpic(integer);
+						   break;
+					       case SUB_TASK:
+						   fileBackedTasksManager.getSubTask(integer);
+						   break;
+					   }
+				       }
+					Task.setTaskIdGenerator((maxId + 1); 
+				   }
+			}		   
+
+
 	   } catch (IOException e) {
 		   throw new ManagerSaveException("Îøèáêà ÷òåíèÿ èç ôàéëà");
         }
-       return null;
+       return fileBackedTasksManager;
     }
 
     public String taskToString(Task task) {
