@@ -26,7 +26,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
 
-                // запись в файл
+                // Г§Г ГЇГЁГ±Гј Гў ГґГ Г©Г«
                 TaskManager taskManager = Managers.getDefault();
 
                 taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
@@ -35,20 +35,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 taskManager.addTask(new Task("Task3", Status.IN_PROGRESS, "extra2"));
                 taskManager.addTask(new Task("Task4", Status.NEW, "extra1"));
 
-                System.out.print("Создали список Taskoв: ");
+                System.out.print("Г‘Г®Г§Г¤Г Г«ГЁ Г±ГЇГЁГ±Г®ГЄ TaskoГў: ");
                 System.out.println(taskManager.getTasks());
 
                 taskManager.addEpic(new Epic("Epic5", Status.NEW, "extra1"));
                 taskManager.addEpic(new Epic("Epic6", Status.IN_PROGRESS, "extra2"));
 
-                System.out.print("Создали список Epicов: ");
+                System.out.print("Г‘Г®Г§Г¤Г Г«ГЁ Г±ГЇГЁГ±Г®ГЄ EpicГ®Гў: ");
                 System.out.println(taskManager.getEpics());
 
                 taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 6));
                 taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 6));
                 taskManager.addSubTask(new SubTask("SubTask9", Status.IN_PROGRESS, "extra2", 6));
 
-                System.out.print("Создали список SubTaskов: ");
+                System.out.print("Г‘Г®Г§Г¤Г Г«ГЁ Г±ГЇГЁГ±Г®ГЄ SubTaskГ®Гў: ");
                 System.out.println(taskManager.getSubTasks());
 
                 taskManager.getTaskById(0);
@@ -66,23 +66,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                 System.out.println("_________________________________________________________________________________");
 
-                System.out.println("Проверяем чтение из файла");
+                System.out.println("ГЏГ°Г®ГўГҐГ°ГїГҐГ¬ Г·ГІГҐГ­ГЁГҐ ГЁГ§ ГґГ Г©Г«Г ");
 
-                // чтение из файла
+                // Г·ГІГҐГ­ГЁГҐ ГЁГ§ ГґГ Г©Г«Г 
                 File file = new File("src/resources/tasks.csv");
                 FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
-                 System.out.println("Читаем списки задач");
+                 System.out.println("Г—ГЁГІГ ГҐГ¬ Г±ГЇГЁГ±ГЄГЁ Г§Г Г¤Г Г·");
                 if (fileBackedTasksManager != null) {
                     System.out.println(fileBackedTasksManager.getTasks());
                     System.out.println(fileBackedTasksManager.getEpics());
                     System.out.println(fileBackedTasksManager.getSubTasks());
-                    System.out.println("Проверяем историю");
+                    System.out.println("ГЏГ°Г®ГўГҐГ°ГїГҐГ¬ ГЁГ±ГІГ®Г°ГЁГѕ");
                     System.out.println(fileBackedTasksManager.getHistory());
                 }
         }
 
     @Override
-    public void addTask(Task task) {  // переопределить все методы с добавлением save();
+    public void addTask(Task task) {  // ГЇГҐГ°ГҐГ®ГЇГ°ГҐГ¤ГҐГ«ГЁГІГј ГўГ±ГҐ Г¬ГҐГІГ®Г¤Г» Г± Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐГ¬ save();
         super.addTask(task);
         save();
     }
@@ -139,11 +139,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             bufferedWriter.write(s);
 
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка записи в файл");
+            throw new ManagerSaveException("ГЋГёГЁГЎГЄГ  Г§Г ГЇГЁГ±ГЁ Гў ГґГ Г©Г«");
         }
     }    
     
-    // написать разные методы для Task, Epic, SubTask; addEpicToFile, addSubTaskToFile
+    // Г­Г ГЇГЁГ±Г ГІГј Г°Г Г§Г­Г»ГҐ Г¬ГҐГІГ®Г¤Г» Г¤Г«Гї Task, Epic, SubTask; addEpicToFile, addSubTaskToFile
     private void addTasksToFile(BufferedWriter bufferedWriter, Collection<Task> tasks) throws IOException {
 
         for (Task value : tasks) {
@@ -168,7 +168,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
     
-    // метод создания задачи из строки
+    // Г¬ГҐГІГ®Г¤ Г±Г®Г§Г¤Г Г­ГЁГї Г§Г Г¤Г Г·ГЁ ГЁГ§ Г±ГІГ°Г®ГЄГЁ
     public Task fromString(String value) {
 	    if (!value.isEmpty()) {	   
 	    
@@ -206,7 +206,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         };
     }
 
-    // статический метод историю в строку
+    // Г±ГІГ ГІГЁГ·ГҐГ±ГЄГЁГ© Г¬ГҐГІГ®Г¤ ГЁГ±ГІГ®Г°ГЁГѕ Гў Г±ГІГ°Г®ГЄГі
     public static String historyToString(HistoryManager historyManager) {
 
             StringBuilder sb = new StringBuilder();
@@ -222,7 +222,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             return s;
     }
     
-    // статический метод для восстановления менеджера истории из файла CSV
+    // Г±ГІГ ГІГЁГ·ГҐГ±ГЄГЁГ© Г¬ГҐГІГ®Г¤ Г¤Г«Гї ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї Г¬ГҐГ­ГҐГ¤Г¦ГҐГ°Г  ГЁГ±ГІГ®Г°ГЁГЁ ГЁГ§ ГґГ Г©Г«Г  CSV
     public static List<Integer> historyFromString(String value) {	    
 	    if (value.isEmpty()) {
 	        return null;
@@ -238,7 +238,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 	
     
-    // метод который восстанавливает данные менеджера из файла при запуске программы
+    // Г¬ГҐГІГ®Г¤ ГЄГ®ГІГ®Г°Г»Г© ГўГ®Г±Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГІ Г¤Г Г­Г­Г»ГҐ Г¬ГҐГ­ГҐГ¤Г¦ГҐГ°Г  ГЁГ§ ГґГ Г©Г«Г  ГЇГ°ГЁ Г§Г ГЇГіГ±ГЄГҐ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»
     public static FileBackedTasksManager loadFromFile(File file) {
 	    if (file.isFile()) {
 	        return null;
@@ -246,7 +246,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
 	    
 	   try (Reader fileReader = new FileReader(file);
-            BufferedReader br = new BufferedReader(fileReader)) {
+            BufferedReader br = new BufferedReader(fileReader, StandardCharsets.UTF_8)) {
 
 		   	    
 		   while (br.ready()) {
@@ -290,7 +290,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
            }
 		   
 	   } catch (IOException e) {
-		   throw new ManagerSaveException("Ошибка чтения из файла");
+		   throw new ManagerSaveException("ГЋГёГЁГЎГЄГ  Г·ГІГҐГ­ГЁГї ГЁГ§ ГґГ Г©Г«Г ");
         }
        return null;
     }
