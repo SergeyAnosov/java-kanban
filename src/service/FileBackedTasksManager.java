@@ -26,7 +26,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
 
-                // этот блок нужен только для заполнения файла. При втором запуске его нужно занести в аннотацию
+                // этот блок нужен только для заполнения файла. 
                 TaskManager taskManager = Managers.getDefault();
 	    
                 taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
@@ -48,6 +48,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                 taskManager.getEpicById(3);
                 taskManager.getEpicById(2);
+	    	taskManager.deleteEpic(3);
 
                 taskManager.getSubTaskById(5);
                 taskManager.getSubTaskById(4);                
@@ -56,20 +57,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 	    	System.out.println("Файл создан и заполнен");
 
                 System.out.println("_________________________________________________________________________________");
-
-                System.out.println("Ïðîâåðÿåì ÷òåíèå èç ôàéëà");
-
-                // ÷òåíèå èç ôàéëà
+	    
+	    	// Этот блок зпускается для чтении истории из файла. Создаётся другой taskManager
+	    
                 File file = new File("src/resources/tasks.csv");
-                FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
+                FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);\
+			
                  System.out.println("×èòàåì ñïèñêè çàäà÷");
-                if (fileBackedTasksManager != null) {
+               
                     System.out.println(fileBackedTasksManager.getTasks());
                     System.out.println(fileBackedTasksManager.getEpics());
                     System.out.println(fileBackedTasksManager.getSubTasks());
                     System.out.println("Ïðîâåðÿåì èñòîðèþ");
                     System.out.println(fileBackedTasksManager.getHistory());
-                }
+                
         }
 
     @Override
