@@ -245,14 +245,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             if (integer > maxId) {
                                 maxId = integer;
                             }
-                            Task task = fileBackedTasksManager.getTask(integer);
-                            if (task != null) {
-                                switch (task.getTaskType()) {
-                                    case TASK -> fileBackedTasksManager.getTaskById(integer);
-                                    case EPIC -> fileBackedTasksManager.getEpicById(integer);
-                                    case SUB_TASK -> fileBackedTasksManager.getSubTaskById(integer);
-                                }
+                            // проверить в какой мапе находится ключ и исходя из этого создавать Task
+                            if (tasks.containsKey(integer)) {                                
+                                //Task task = fileBackedTasksManager.getTask(integer);
+                                //if (task != null) {
+                                    fileBackedTasksManager.getTaskById(integer);
+                                //}
+                            } else if (epics.containsKey(integer)) {
+                                //Epic epic = fileBackedTasksManager.getEpic(integer);
+                                fileBackedTasksManager.getEpicById(integer);
+                                    //case SUB_TASK -> 
+                            } else if (subTasks.containsKey(integer)) {
+                                fileBackedTasksManager.getSubTaskById(integer);
                             }
+                            
                             Task.setTaskIdGenerator((maxId + 1));
                         }
                     }
