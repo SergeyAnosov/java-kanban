@@ -1,8 +1,9 @@
 id,type,name,status,description,epic
 0,TASK,Task0,NEW,extra1
 1,TASK,Task777,IN_PROGRESS,77777777
-8,EPIC,Epic5,NEW,extra1
-9,SUB_TASK,SubTask7,NEW,extra1,2
-10,SUB_TASK,SubTask8,IN_PROGRESS,extra2,2
+2,EPIC,Epic5,IN_PROGRESS,extra1
+3,EPIC,Epic6,NEW,extra2
+4,SUB_TASK,SubTask7,NEW,extra1,2
+5,SUB_TASK,SubTask8,IN_PROGRESS,extra2,2
 
-1,0,
+1,0,3,2,5,4,

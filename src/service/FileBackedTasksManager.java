@@ -25,7 +25,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static void main(String[] args) {
 
         // этот блок нужен только для заполнения файла.
-        TaskManager taskManager = Managers.getDefault();
+       /* TaskManager taskManager = Managers.getDefaultBacked();
 
         taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
         taskManager.addTask(new Task("Task777", Status.IN_PROGRESS, "77777777"));
@@ -46,14 +46,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         taskManager.getEpicById(3);
         taskManager.getEpicById(2);
-        taskManager.deleteEpic(3);
 
         taskManager.getSubTaskById(5);
         taskManager.getSubTaskById(4);
 
         System.out.print("История: ");
         System.out.println(taskManager.getHistory());
-        System.out.println("Файл создан и заполнен");
+        System.out.println("Файл создан и заполнен");*/
         System.out.println("_________________________________________________________________________________");
 
         // Этот блок зпускается для чтении истории из файла. Создаётся другой taskManager
@@ -90,9 +89,25 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
     @Override
-    public SubTask getSubTaskById(int subTaskId) {
+    public Task getTask(int taskId) {
+        Task task = super.getTask(taskId);
         save();
-        return super.getSubTaskById(subTaskId);
+        return task;
+    }
+
+    @Override
+    public Epic getEpic(int epicId) {
+        Epic epic = super.getEpic(epicId);
+        save();
+        return epic;
+    }
+
+    @Override
+    public SubTask getSubTask(int subTaskId) {
+        SubTask subTask = super.getSubTask(subTaskId);
+        save();
+        return subTask;
+
     }
 
     @Override
@@ -226,9 +241,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     // ìåòîä êîòîðûé âîññòàíàâëèâàåò äàííûå ìåíåäæåðà èç ôàéëà ïðè çàïóñêå ïðîãðàììû
     public static FileBackedTasksManager loadFromFile(File file) {
-        /*if (file.isFile()) {
-            return null;
-        }*/
+
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
 
         try (Reader fileReader = new FileReader(file);
@@ -239,31 +252,27 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 if (line.isBlank()) {
                     String history = br.readLine();
                     List<Integer> listHistory = historyFromString(history);
-                    int maxId = 0;
+                    //int maxId = 0;
                     if (listHistory != null) {
                         for (Integer integer : listHistory) {
-                            if (integer > maxId) {
-                                maxId = integer;
-                            }
+                            //if (integer > maxId) {
+                               // maxId = integer;
+                            //}
                             // проверить в какой мапе находится ключ и исходя из этого создавать Task
-                            if (tasks.containsKey(integer)) {                                
-                                //Task task = fileBackedTasksManager.getTask(integer);
-                                //if (task != null) {
-                                    fileBackedTasksManager.getTaskById(integer);
-                                //}
-                            } else if (epics.containsKey(integer)) {
-                                //Epic epic = fileBackedTasksManager.getEpic(integer);
-                                fileBackedTasksManager.getEpicById(integer);
-                                    //case SUB_TASK -> 
-                            } else if (subTasks.containsKey(integer)) {
-                                fileBackedTasksManager.getSubTaskById(integer);
+                            if (fileBackedTasksManager.tasks.containsKey(integer)) {
+                                Task task = fileBackedTasksManager.getTaskById(integer);
+
+                            } else if (fileBackedTasksManager.epics.containsKey(integer)) {
+                                Epic epic = fileBackedTasksManager.getEpicById(integer);
+
+                            } else if (fileBackedTasksManager.subTasks.containsKey(integer)) {
+                                SubTask subTask = fileBackedTasksManager.getSubTaskById(integer);
                             }
-                            
-                            Task.setTaskIdGenerator((maxId + 1));
+                            //Task.setTaskIdGenerator((maxId + 1));
                         }
                     }
                 }
-                if (!line.startsWith("id")) {
+
                     Task task = fileBackedTasksManager.fromString(line);
                     if (task != null) {
                         switch (task.getTaskType()) {
@@ -272,7 +281,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             case SUB_TASK -> fileBackedTasksManager.subTasks.put(task.getId(), (SubTask) task);
                         }
                     }
-                }
+
             }
 
 
