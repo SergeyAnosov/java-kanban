@@ -25,7 +25,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     public static void main(String[] args) {
 
         // этот блок нужен только для заполнения файла.
-       /* TaskManager taskManager = Managers.getDefaultBacked();
+        TaskManager taskManager = Managers.getDefaultBacked();
 
         taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
         taskManager.addTask(new Task("Task777", Status.IN_PROGRESS, "77777777"));
@@ -52,7 +52,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         System.out.print("История: ");
         System.out.println(taskManager.getHistory());
-        System.out.println("Файл создан и заполнен");*/
+        System.out.println("Файл создан и заполнен");
         System.out.println("_________________________________________________________________________________");
 
         // Этот блок зпускается для чтении истории из файла. Создаётся другой taskManager
@@ -67,7 +67,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         System.out.println(fileBackedTasksManager.getSubTasks());
         System.out.println("Печатаем историю");
         System.out.println(fileBackedTasksManager.getHistory());
-
     }
 
     @Override
@@ -185,14 +184,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     return task;
                 }
                 case "EPIC" -> {
-                    Task task = new Epic(content[2], switchStatus(content[3]), content[4]);
-                    task.setId(Integer.parseInt(content[0]));
-                    return task;
+                    Epic epic = new Epic(content[2], switchStatus(content[3]), content[4]);
+                    epic.setEpicId(Integer.parseInt(content[0]));
+                    return epic;
                 }
                 case "SUB_TASK" -> {
-                    Task task = new SubTask(content[2], switchStatus(content[3]), content[4], Integer.parseInt(content[5]));
-                    task.setId(Integer.parseInt(content[0]));
-                    return task;
+                    SubTask subTask = new SubTask(content[2], switchStatus(content[3]), content[4], Integer.parseInt(content[5]));
+                    subTask.setSubTaskId(Integer.parseInt(content[0]));
+                    return subTask;
                 }
             }
         }
@@ -252,11 +251,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 if (line.isBlank()) {
                     String history = br.readLine();
                     List<Integer> listHistory = historyFromString(history);
-                    //int maxId = 0;
+                    int maxId = 0;
                     if (listHistory != null) {
                         for (Integer integer : listHistory) {
                             //if (integer > maxId) {
-                               // maxId = integer;
+                                //maxId = integer;
                             //}
                             // проверить в какой мапе находится ключ и исходя из этого создавать Task
                             if (fileBackedTasksManager.tasks.containsKey(integer)) {
@@ -268,7 +267,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                             } else if (fileBackedTasksManager.subTasks.containsKey(integer)) {
                                 SubTask subTask = fileBackedTasksManager.getSubTaskById(integer);
                             }
-                            //Task.setTaskIdGenerator((maxId + 1));
+                           // Task.setTaskIdGenerator((maxId + 1));
                         }
                     }
                 }
