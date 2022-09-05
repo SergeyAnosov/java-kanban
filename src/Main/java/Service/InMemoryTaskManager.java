@@ -1,4 +1,4 @@
-package service;
+package Service;
 
 import Interfaces.HistoryManager;
 import Interfaces.TaskManager;
@@ -7,6 +7,7 @@ import constants.Status;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+
 
 import java.util.Map;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> tasks = new HashMap<>();
     protected Map<Integer, SubTask> subTasks = new HashMap<>();
     protected Map<Integer, Epic> epics = new HashMap<>();
-    protected final HistoryManager historyManager = Managers.getDefaultHistory();
+    public final HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
     public Task getTaskById(int taskId) {

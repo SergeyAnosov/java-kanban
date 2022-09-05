@@ -1,4 +1,4 @@
-package service;
+package Service;
 import Interfaces.HistoryManager;
 import tasks.Task;
 
@@ -19,7 +19,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (task == null) {
             return;
         }
-
         taskList.removeNode(task.getId());
         taskList.linkLast(task);
         nodeMap.put(task.getId(), last);

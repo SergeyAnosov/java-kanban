@@ -1,4 +1,4 @@
-package service;
+package Service;
 
 import tasks.Epic;
 import tasks.SubTask;
@@ -9,21 +9,21 @@ import java.util.List;
 public class PrintService {
 
     public void printTasks(List<Task> tasks) {
-        System.out.println("Список Тасков: ");
+        System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: ");
         for (Task task : tasks) {
             System.out.println(task);
         }
     }
 
     public void printEpics(List<Epic> epics) {
-        System.out.println("Список Эпиков: ");
+        System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: ");
         for (Epic epic : epics) {
             System.out.println(epic);
         }
     }
 
     public void printSubTasks(List<SubTask> subTasks) {
-        System.out.println("Список SubTaskов: ");
+        System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅ SubTaskпїЅпїЅ: ");
         for (SubTask subTask : subTasks) {
             System.out.println(subTask);
         }
