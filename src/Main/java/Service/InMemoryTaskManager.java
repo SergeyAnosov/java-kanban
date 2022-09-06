@@ -63,6 +63,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addEpic(Epic epic) {
         int epicId = epic.getId();
+        LocalDateTime epicStartTime = getEpicStartTime(epic);
+        LocalDateTime epicEndTime = getEpicEndTime(epic);
+        Duration epicDuration = getDuration(epic);
+        epic.setStartTime(epicStartTime);
+        epic.setEndTime(epicEndTime);
+        epic.setDuration(epicDuration);        
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -95,6 +101,48 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> getSubTasks() {
         Collection<SubTask> values = subTasks.values();
         return new ArrayList<>(values);
+    }
+    
+    public void getEpicStartTime(Epic epic) {
+        List<Integer> listId = epic.getSubTaskIds();
+         
+        List<SubTask> list = new ArrayList<>();
+        for (Integer i : listId) {
+            list.add(getSubTask(i));
+        }
+        LocalDateTime startIime = LocalDateTime.of(list.get(0).getStartTime());
+        for (SubTask sub : list) {
+            if (sub.getStartTime().isBefore(startTime)) {
+                startTime = sub.getStartTime();
+            }
+        return startTime;
+    }
+        
+        public Duration getDuration(Epic epic) {
+        Duration epicDuration = 0;
+        List<Integer> listId = epic.getSubTaskIds();
+        List<SubTask> list = new ArrayList<>();
+        for (Integer i : listId) {
+            list.add(getSubTask(i));
+        }
+        for (SubTask sub : list) {
+            epicDuration += sub.getDuration();
+        }
+        return epicDuration;
+    } 
+        
+         public LocalDateTime getEndTime(Epic epic) {
+            List<Integer> listId = epic.getSubTaskIds();
+            List<SubTask> list = new ArrayList<>();
+            for (Integer i : listId) {
+                list.add(getSubTask(i));
+            }
+            LocalDateTime endtIime = LocalDateTime.of(list.get(0).getEndTime());
+            for (SubTask sub : list) {
+                if (sub.getStartTime().isAfter(endTime)) {
+                    startTime = sub.getEndTime();
+                }
+        return endTime;        
     }
 
     @Override
