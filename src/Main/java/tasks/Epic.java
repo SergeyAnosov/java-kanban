@@ -19,6 +19,44 @@ public class Epic extends Task {
         setTaskIdGenerator(epicId + 1);
     }
     
+    public LocalDateTime getStartTime() {
+        List<SubTask> list = new ArrayList<>();
+        for (Integer i : subTaskIds) {
+            list.add(getSubTask(i));
+        }
+        LocalDateTime startIime = LocalDateTime.of(list.get(0).getStartTime());
+        for (SubTask sub : list) {
+            if (sub.getStartTime().isBefore(startTime)) {
+                startTime = sub.getStartTime();
+            }
+        return startTime;
+    }
+    
+    public Duration getDuration() {
+        Duration epicDuration = 0;
+        List<SubTask> list = new ArrayList<>();
+        for (Integer i : subTaskIds) {
+            list.add(getSubTask(i));
+        }
+        for (SubTask sub : list) {
+            epicDuration += sub.getDuration();
+        }
+        return epicDuration;
+    }
+    
+    public LocalDateTime getEndTime() {
+        List<SubTask> list = new ArrayList<>();
+        for (Integer i : subTaskIds) {
+            list.add(getSubTask(i));
+        }
+        LocalDateTime endtIime = LocalDateTime.of(list.get(0).getEndTime());
+        for (SubTask sub : list) {
+            if (sub.getStartTime().isAfter(endTime)) {
+                startTime = sub.getEndTime();
+            }
+        return endTime;        
+    }
+    
      public int getId() {
         return epicId;
     }
