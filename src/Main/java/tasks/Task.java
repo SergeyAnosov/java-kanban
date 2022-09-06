@@ -34,6 +34,10 @@ public class Task {
         LocalDateTime  endTime = startTime.plusMinutes(duration);
         return endTime;
     }
+    
+    public LocalDateTime startTime() {        
+        return startTime;
+    }
 
     public int getId() {
         return taskId;
