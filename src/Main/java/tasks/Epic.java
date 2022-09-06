@@ -4,13 +4,17 @@ package tasks;
 import constants.Status;
 import constants.TaskType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subTaskIds = new ArrayList<>();
     protected int epicId;
-    protected LocalDateTime endtime();
+    protected LocalDateTime endTime;
+    protected LocalDateTime startTime;
+    protected long duration;
 
     public Epic(String name, Status status, String extraInfo) {
         this.name = name;
@@ -28,7 +32,7 @@ public class Epic extends Task {
        this.endTime = endTime;
     }
     
-    public void setDuration(Duration duration) {
+    public void setDuration(long duration) {
        this.duration = duration;
     }   
     

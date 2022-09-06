@@ -3,13 +3,16 @@ package tasks;
 import constants.Status;
 import constants.TaskType;
 
+import java.time.LocalDateTime;
+
 public class SubTask extends Task {
     protected int epicId;
     protected int subTaskId;
     protected LocalDateTime startTime;
-    protected Duration duration;
+    protected long duration;
+    protected LocalDateTime endTime;
 
-    public SubTask(String name, Status status, String extraInfo, int epicId, LocalDateTime startTime, Duration duration) {
+    public SubTask(String name, Status status, String extraInfo, int epicId, long duration, LocalDateTime startTime) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;   
@@ -31,6 +34,10 @@ public class SubTask extends Task {
      public LocalDateTime getEndTime() {
         LocalDateTime  endTime = startTime.plusMinutes(duration);
         return endTime;
+    }
+
+    public long getDuration() {
+        return duration;
     }
 
     public void setSubTaskId(int subTaskId) {

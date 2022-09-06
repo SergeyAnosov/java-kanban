@@ -9,6 +9,8 @@ import tasks.SubTask;
 import tasks.Task;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -65,13 +67,15 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = epic.getId();
         LocalDateTime epicStartTime = getEpicStartTime(epic);
         LocalDateTime epicEndTime = getEpicEndTime(epic);
-        Duration epicDuration = getDuration(epic);
+        long epicDuration = getDuration(epic);
         epic.setStartTime(epicStartTime);
         epic.setEndTime(epicEndTime);
         epic.setDuration(epicDuration);        
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
+
+
 
     @Override
     public void addSubTask(SubTask subTask) {
@@ -103,46 +107,49 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(values);
     }
     
-    public void getEpicStartTime(Epic epic) {
+    public LocalDateTime getEpicStartTime(Epic epic) {
         List<Integer> listId = epic.getSubTaskIds();
          
         List<SubTask> list = new ArrayList<>();
         for (Integer i : listId) {
             list.add(getSubTask(i));
         }
-        LocalDateTime startIime = LocalDateTime.of(list.get(0).getStartTime());
+        LocalDateTime startTime = LocalDateTime.of(3000,0,0,0,0);
         for (SubTask sub : list) {
             if (sub.getStartTime().isBefore(startTime)) {
                 startTime = sub.getStartTime();
             }
+        }
         return startTime;
     }
-        
-        public Duration getDuration(Epic epic) {
-        Duration epicDuration = 0;
-        List<Integer> listId = epic.getSubTaskIds();
-        List<SubTask> list = new ArrayList<>();
-        for (Integer i : listId) {
-            list.add(getSubTask(i));
+
+    private long getDuration(Epic epic) {
+        long epicDuration = 0;
+        List<Integer> listId1 = epic.getSubTaskIds();
+        List<SubTask> list1 = new ArrayList<>();
+        for (Integer i : listId1) {
+            list1.add(getSubTask(i));
         }
-        for (SubTask sub : list) {
+        for (SubTask sub : list1) {
             epicDuration += sub.getDuration();
         }
         return epicDuration;
-    } 
-        
-         public LocalDateTime getEndTime(Epic epic) {
-            List<Integer> listId = epic.getSubTaskIds();
-            List<SubTask> list = new ArrayList<>();
-            for (Integer i : listId) {
-                list.add(getSubTask(i));
+    }
+
+    public LocalDateTime getEpicEndTime(Epic epic) {
+            List<Integer> listId2 = epic.getSubTaskIds();
+            List<SubTask> list2 = new ArrayList<>();
+            for (Integer i : listId2) {
+                list2.add(getSubTask(i));
             }
-            LocalDateTime endtIime = LocalDateTime.of(list.get(0).getEndTime());
-            for (SubTask sub : list) {
-                if (sub.getStartTime().isAfter(endTime)) {
-                    startTime = sub.getEndTime();
+            LocalDateTime endTime = LocalDateTime.of(1000,0,0,0,0);
+            for (SubTask sub : list2) {
+                if (sub.getEndTime().isAfter(endTime)) {
+                    endTime = sub.getEndTime();
                 }
-        return endTime;        
+            }
+        return endTime;
+
     }
 
     @Override

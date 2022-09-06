@@ -8,6 +8,7 @@ import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,11 +25,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     public static void main(String[] args) {
 
-        // этот блок нужен только для заполнения файла.
+        // этот блок нужен только для заполнения файла
         TaskManager taskManager = Managers.getDefaultBacked();
 
-        taskManager.addTask(new Task("Task0", Status.NEW, "extra1"));
-        taskManager.addTask(new Task("Task777", Status.IN_PROGRESS, "77777777"));
+        taskManager.addTask(new Task("Task0", Status.NEW, "extra1", 15, LocalDateTime.of(2022, 09, 15, 10, 30)));
+        taskManager.addTask(new Task("Task777", Status.IN_PROGRESS, "77777777", 25, LocalDateTime.of(2022, 10, 15, 10, 30)));
 
         taskManager.addEpic(new Epic("Epic5", Status.NEW, "extra1"));
         taskManager.addEpic(new Epic("Epic6", Status.IN_PROGRESS, "extra2"));

@@ -4,6 +4,8 @@ package tasks;
 import constants.Status;
 import constants.TaskType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -14,29 +16,28 @@ public class Task {
     private static int taskIdGenerator = 0;    
     
     protected LocalDateTime startTime;
-    protected Duration duration;
-    
+    protected long duration;
+    protected LocalDateTime endTime;
 
-    public Task(String name, Status status, String extraInfo, LocalDateTime startTime, Duration duration) {
+    public Task(String name, Status status, String extraInfo, long duration, LocalDateTime startTime) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
         this.startTime = startTime;
         this.duration = duration;
-       
     }
 
     public Task() {
     }
-    
-    public LocalDateTime getEndTime() {
-        LocalDateTime  endTime = startTime.plusMinutes(duration);
-        return endTime;
-    }
-    
-    public LocalDateTime startTime() {        
+
+    public LocalDateTime getStartTime() {
         return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        endTime = startTime.plusMinutes(duration);
+        return endTime;
     }
 
     public int getId() {

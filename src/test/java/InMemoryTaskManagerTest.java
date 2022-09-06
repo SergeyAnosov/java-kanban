@@ -36,7 +36,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
 
     @Test
     void getTaskByIdTest() { //getTaskById + history 2.1
-        taskManager.addTask(new Task("Task1", Status.NEW, "extra1"));
+        taskManager.addTask(new Task("Task1", Status.NEW, "extra1", 2022.9.21.10));
         Task testTask1 = taskManager.getTaskById(0); //кладём таск в список
         List<Task> list = taskManager.historyManager.getHistory();
         Task task = taskManager.getTasks().get(0);
