@@ -11,16 +11,28 @@ public class Task {
     protected String name;
     protected Status status;
     protected String extraInfo;
-    private static int taskIdGenerator = 0;  
+    private static int taskIdGenerator = 0;    
+    
+    protected LocalDateTime startTime;
+    protected Duration duration;
+    
 
-    public Task(String name, Status status, String extraInfo) {
+    public Task(String name, Status status, String extraInfo, LocalDateTime startTime, Duration duration) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
+        this.startTime = startTime;
+        this.duration = duration;
+       
     }
 
     public Task() {
+    }
+    
+    public LocalDateTime getEndTime() {
+        LocalDateTime  endTime = startTime.plusMinutes(duration);
+        return endTime;
     }
 
     public int getId() {
