@@ -17,8 +17,7 @@ public class Task {
     protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"); 
     
     protected LocalDateTime startTime;
-    protected Duration duration;
-    protected LocalDateTime endTime;
+    protected Duration duration;    
 
     public Task(String name, Status status, String extraInfo, int time, int year, int month, int day, int hour, int minutes) {
         this.name = name;
