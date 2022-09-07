@@ -20,8 +20,7 @@ public class SubTask extends Task {
         subTaskId = getTaskIdGenerator();
         setTaskIdGenerator(subTaskId + 1);
         duration = Duration.ofMinutes(time);
-        starTime = LocalDateTime.of(year, month, day, hour, minutes);
-        endTime = startTime.plus(duration);
+        starTime = LocalDateTime.of(year, month, day, hour, minutes);        
     }
     
     public int getId() {
