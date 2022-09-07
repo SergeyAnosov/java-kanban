@@ -9,18 +9,19 @@ public class SubTask extends Task {
     protected int epicId;
     protected int subTaskId;
     protected LocalDateTime startTime;
-    protected long duration;
+    protected Duration duration;
     protected LocalDateTime endTime;
 
-    public SubTask(String name, Status status, String extraInfo, int epicId, long duration, LocalDateTime startTime) {
+    public SubTask(String name, Status status, String extraInfo, int time, int year, int month, int day, int hour, int minutes, int epicId) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;   
         this.epicId = epicId;
         subTaskId = getTaskIdGenerator();
         setTaskIdGenerator(subTaskId + 1);
-        this.startTime = startTime;
-        this.duration = duration;
+        duration = Duration.ofMinutes(time);
+        starTime = LocalDateTime.of(year, month, day, hour, minutes);
+        endTime = startTime.plus(duration);
     }
     
     public int getId() {
@@ -29,16 +30,7 @@ public class SubTask extends Task {
 
     public int getEpicId() {
         return epicId;
-    }
-    
-     public LocalDateTime getEndTime() {
-        LocalDateTime  endTime = startTime.plusMinutes(duration);
-        return endTime;
-    }
-
-    public long getDuration() {
-        return duration;
-    }
+    }    
 
     public void setSubTaskId(int subTaskId) {
         this.subTaskId = subTaskId;
