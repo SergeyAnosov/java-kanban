@@ -13,32 +13,37 @@ public class Task {
     protected String name;
     protected Status status;
     protected String extraInfo;
-    private static int taskIdGenerator = 0;    
+    private static int taskIdGenerator = 0; 
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"); 
     
     protected LocalDateTime startTime;
-    protected long duration;
+    protected Duration duration;
     protected LocalDateTime endTime;
 
-    public Task(String name, Status status, String extraInfo, long duration, LocalDateTime startTime) {
+    public Task(String name, Status status, String extraInfo, long time, int year, int month, int day, int hour, int minutes) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
         this.startTime = startTime;
-        this.duration = duration;
+        duration = Duration.ofMinutes(time);
+        starTime = LocalDateTime.of(year, month, day, hour, minutes);
+        endTime = startTime.plus(duration);
     }
 
     public Task() {
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public String getStartTime() {               
+        return startTime.format(formatter);
     }
 
-    public LocalDateTime getEndTime() {
-        endTime = startTime.plusMinutes(duration);
-        return endTime;
+    public String getEndTime() {        
+        return endTime.format(fromatter);
     }
+    
+    public Duration getDuration() {
+        return duration;
 
     public int getId() {
         return taskId;
