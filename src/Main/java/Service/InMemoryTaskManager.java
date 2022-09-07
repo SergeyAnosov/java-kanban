@@ -108,48 +108,24 @@ public class InMemoryTaskManager implements TaskManager {
     }
     
     public LocalDateTime getEpicStartTime(Epic epic) {
-        List<Integer> listId = epic.getSubTaskIds();
-         
-        List<SubTask> list = new ArrayList<>();
-        for (Integer i : listId) {
-            list.add(getSubTask(i));
-        }
-        LocalDateTime startTime = LocalDateTime.of(3000,0,0,0,0);
-        for (SubTask sub : list) {
-            if (sub.getStartTime().isBefore(startTime)) {
-                startTime = sub.getStartTime();
-            }
-        }
+        List<SubTask> list = getSubTasksFromEpic(epic.getId());       
+        LocalDateTime startTime = epic.calculateEpicStartTime(list);
+        epic.setStartTime(startTime);
         return startTime;
     }
 
-    private long getDuration(Epic epic) {
-        long epicDuration = 0;
-        List<Integer> listId1 = epic.getSubTaskIds();
-        List<SubTask> list1 = new ArrayList<>();
-        for (Integer i : listId1) {
-            list1.add(getSubTask(i));
-        }
-        for (SubTask sub : list1) {
-            epicDuration += sub.getDuration();
-        }
-        return epicDuration;
+    private Duration getDuration(Epic epic) {
+            List<SubTask> list = getSubTasksFromEpic(epic.getId());
+            Duration epicDuration = epic.calculateDuration(list);
+            epic.setDuration(epicDuration);
+        return epicDuration;        
     }
 
-    public LocalDateTime getEpicEndTime(Epic epic) {
-            List<Integer> listId2 = epic.getSubTaskIds();
-            List<SubTask> list2 = new ArrayList<>();
-            for (Integer i : listId2) {
-                list2.add(getSubTask(i));
-            }
-            LocalDateTime endTime = LocalDateTime.of(1000,0,0,0,0);
-            for (SubTask sub : list2) {
-                if (sub.getEndTime().isAfter(endTime)) {
-                    endTime = sub.getEndTime();
-                }
-            }
+    public LocalDateTime getEpicEndTime(Epic epic) {            
+            List<SubTask> list = getSubTasksFromEpic(epic.getId());
+            LocalDateTime endTime = epic.calculateEpicEndTime(list);
+            epic.setEndTime(endTime);
         return endTime;
-
     }
 
     @Override
