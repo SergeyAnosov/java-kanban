@@ -20,7 +20,7 @@ public class Task {
     protected Duration duration;
     protected LocalDateTime endTime;
 
-    public Task(String name, Status status, String extraInfo, long time, int year, int month, int day, int hour, int minutes) {
+    public Task(String name, Status status, String extraInfo, int time, int year, int month, int day, int hour, int minutes) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
