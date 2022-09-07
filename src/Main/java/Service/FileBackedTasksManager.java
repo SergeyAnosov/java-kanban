@@ -132,7 +132,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
 
-            bufferedWriter.write("id,type,name,status,description,epic");
+            bufferedWriter.write("id,type,name,status,description,duration,startTime,epicId");
             bufferedWriter.newLine();
 
             addTasksToFile(bufferedWriter, tasks.values());
@@ -148,7 +148,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    // íàïèñàòü ðàçíûå ìåòîäû äëÿ Task, Epic, SubTask; addEpicToFile, addSubTaskToFile
+    
     private void addTasksToFile(BufferedWriter bufferedWriter, Collection<Task> tasks) throws IOException {
 
         for (Task value : tasks) {
@@ -173,7 +173,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    // ìåòîä ñîçäàíèÿ çàäà÷è èç ñòðîêè
+   
     public Task fromString(String value) {
         if (!value.isEmpty()) {
 
@@ -208,7 +208,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         };
     }
 
-    // ñòàòè÷åñêèé ìåòîä èñòîðèþ â ñòðîêó
+    
     public static String historyToString(HistoryManager historyManager) {
 
         StringBuilder sb = new StringBuilder();
@@ -223,7 +223,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return s;
     }
 
-    // ñòàòè÷åñêèé ìåòîä äëÿ âîññòàíîâëåíèÿ ìåíåäæåðà èñòîðèè èç ôàéëà CSV
+    
     public static List<Integer> historyFromString(String value) {
         if (value.isEmpty()) {
             return null;
@@ -239,7 +239,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
 
-    // ìåòîä êîòîðûé âîññòàíàâëèâàåò äàííûå ìåíåäæåðà èç ôàéëà ïðè çàïóñêå ïðîãðàììû
+    
     public static FileBackedTasksManager loadFromFile(File file) {
 
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
@@ -292,7 +292,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
         public String taskToString (Task task){
-            return task.getId() + "," + task.getTaskType() + "," + task.getName() + "," + task.getStatus() + "," + task.getExtraInfo();
+            return task.getId() + "," + task.getTaskType() + "," + task.getName() + "," + task.getStatus() + "," + task.getExtraInfo() + "," + task.getDuration() + "," + task.getStartTime().format(formatter);
         }
 
         public String epicToString (Epic epic){
@@ -301,7 +301,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         public String subTaskToString (SubTask subTask){
             return subTask.getId() + "," + subTask.getTaskType() + "," + subTask.getName() + "," + subTask.getStatus() + "," +
-                    subTask.getExtraInfo() + "," + subTask.getEpicId();
+                    subTask.getExtraInfo() + "," + subTask.getDuration() + "," + subTask.getStartTime().format(formatter) + "," + subTask.getEpicId();
         }
 
 
