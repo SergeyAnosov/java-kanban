@@ -11,6 +11,7 @@ import tasks.Task;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, SubTask> subTasks = new HashMap<>();
     protected Map<Integer, Epic> epics = new HashMap<>();
     public final HistoryManager historyManager = Managers.getDefaultHistory();
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"); 
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     @Override
     public Task getTaskById(int taskId) {
@@ -66,17 +67,9 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addEpic(Epic epic) {
         int epicId = epic.getId();
-        LocalDateTime epicStartTime = getEpicStartTime(epic);
-        LocalDateTime epicEndTime = getEpicEndTime(epic);
-        long epicDuration = getDuration(epic);
-        epic.setStartTime(epicStartTime);
-        epic.setEndTime(epicEndTime);
-        epic.setDuration(epicDuration);        
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
-
-
 
     @Override
     public void addSubTask(SubTask subTask) {
@@ -88,6 +81,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.put(subTask.getId(), subTask);
         epic.addSubtaskId(subTask.getId());
         updateEpicStatus(epic);
+        updateEpic(epic, subTask.getEpicId());
     }
 
     @Override
@@ -117,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     private Duration getDuration(Epic epic) {
             List<SubTask> list = getSubTasksFromEpic(epic.getId());
-            Duration epicDuration = epic.calculateDuration(list);
+            Duration epicDuration = epic.calculateEpicDuration(list);
             epic.setDuration(epicDuration);
         return epicDuration;        
     }
@@ -168,6 +162,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.clear();
         for (Epic epic : epics.values()) {
             epic.setSubTaskIds(new ArrayList<>());
+            updateEpic(epic, epic.getId());
         }
     }
 
@@ -184,12 +179,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpic(int epicId) {
-
+        Epic epic = getEpic(epicId);
         List<SubTask> subs = getSubTasksFromEpic(epicId);
 
         for (SubTask sub : subs) {
             historyManager.remove(sub.getId());
             deleteSubTask(sub.getId());
+            updateEpic(epic, epicId);
         }
         historyManager.remove(epicId);
         epics.remove(epicId);
@@ -203,6 +199,7 @@ public class InMemoryTaskManager implements TaskManager {
             int epicId = subTask.getEpicId();
             Epic epic = getEpic(epicId);
             updateEpicStatus(epic);
+            updateEpic(epic, epicId);
         }
         historyManager.remove(subTaskId);
     }
@@ -214,6 +211,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic, int epicId) {
+        LocalDateTime epicStartTime = getEpicStartTime(epic);
+        LocalDateTime epicEndTime = getEpicEndTime(epic);
+        Duration epicDuration = getDuration(epic);
+        epic.setStartTime(epicStartTime);
+        epic.setEndTime(epicEndTime);
+        epic.setDuration(epicDuration);
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -224,6 +227,7 @@ public class InMemoryTaskManager implements TaskManager {
         int epicId = subTask.getEpicId();
         Epic epic = getEpic(epicId);
         updateEpicStatus(epic);
+        updateEpic(epic, epicId);
     }
 
     @Override

@@ -6,6 +6,7 @@ import constants.TaskType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -14,7 +15,7 @@ public class Task {
     protected Status status;
     protected String extraInfo;
     private static int taskIdGenerator = 0; 
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"); 
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     
     protected LocalDateTime startTime;
     protected Duration duration;    
@@ -24,9 +25,9 @@ public class Task {
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
-        startTime = LocalTime.parse(startTime, formatter);
+        startTime = LocalDateTime.parse(time, formatter);
         this.duration = Duration.ofMinutes(duration);
-        starTime = LocalDateTime.of(year, month, day, hour, minutes);        
+
     }
 
     public Task() {
@@ -37,12 +38,13 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
-        endTime = startTime.plus(duration);
+        LocalDateTime endTime = startTime.plus(duration);
         return endTime;
     }
     
     public Duration getDuration() {
         return duration;
+    }
 
     public int getId() {
         return taskId;

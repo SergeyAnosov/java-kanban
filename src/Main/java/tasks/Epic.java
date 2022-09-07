@@ -7,14 +7,13 @@ import constants.TaskType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subTaskIds = new ArrayList<>();
     protected int epicId;
-    
-    protected LocalDateTime startTime;
-    protected long duration;
     protected LocalDateTime endTime;
 
     public Epic(String name, Status status, String extraInfo) {
@@ -32,19 +31,36 @@ public class Epic extends Task {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
     
     public LocalDateTime calculateEpicStartTime(List<SubTask> list) {
-        LocalDateTime startTime = LocalDateTime.of(3000,0,0,0,0);
+
+
+
+            Comparator<SubTask> comparator = Comparator.comparing(Task::getStartTime);
+            list.sort(comparator);
+
+        /*LocalDateTime startTime = LocalDateTime.of(3000,1,1,0,0);
         for (SubTask sub : list) {
             if (sub.getStartTime().isBefore(startTime)) {
-                startTime = sub.getStartTime();
+                LocalDateTime epicTime = sub.getStartTime();
             }
-        }
-       return startTime;
+            }*/
+            SubTask sub1 = list.get(0);
+            LocalDateTime start = sub1.getStartTime();
+
+                return start;
+
+
+
+
     }
     
      public LocalDateTime calculateEpicEndTime(List<SubTask> list) {
-        LocalDateTime endTime = LocalDateTime.of(1000,0,0,0,0);
+        LocalDateTime endTime = LocalDateTime.of(1000,1,1,0,0);
         for (SubTask sub : list) {
             if (sub.getEndTime().isAfter(endTime)) {
                 endTime = sub.getEndTime();
@@ -54,18 +70,14 @@ public class Epic extends Task {
     }
     
     public Duration calculateEpicDuration(List<SubTask> list) {
-        Duration epicDuration;
+        Duration epicDuration = Duration.ofMinutes(0);
         for (SubTask sub : list) {
-            epicDuration += sub.getDuration();
+            epicDuration = epicDuration.plus(sub.getDuration());
         }
         return epicDuration;
     }
     
-    public void getDuration(long duration) {
-       this.duration = duration;
-    }   
-    
-     public int getId() {
+    public int getId() {
         return epicId;
     }
 
