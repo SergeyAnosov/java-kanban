@@ -9,7 +9,7 @@ public class SubTask extends Task {
     protected int epicId;
     protected int subTaskId;    
 
-    public SubTask(String name, Status status, String extraInfo, int duration, int year, int month, int day, int hour, int minutes, int epicId) {
+    public SubTask(String name, Status status, String extraInfo, int duration, String time, int epicId) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;   
@@ -17,7 +17,7 @@ public class SubTask extends Task {
         subTaskId = getTaskIdGenerator();
         setTaskIdGenerator(subTaskId + 1);
         this.duration = Duration.ofMinutes(duration);
-        starTime = LocalDateTime.of(year, month, day, hour, minutes);        
+        startTime = LocalDateTime.parse(time, formatter);        
     }
     
     public int getId() {
