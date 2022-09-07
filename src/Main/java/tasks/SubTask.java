@@ -9,14 +9,14 @@ public class SubTask extends Task {
     protected int epicId;
     protected int subTaskId;    
 
-    public SubTask(String name, Status status, String extraInfo, int time, int year, int month, int day, int hour, int minutes, int epicId) {
+    public SubTask(String name, Status status, String extraInfo, int duration, int year, int month, int day, int hour, int minutes, int epicId) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;   
         this.epicId = epicId;
         subTaskId = getTaskIdGenerator();
         setTaskIdGenerator(subTaskId + 1);
-        duration = Duration.ofMinutes(time);
+        this.duration = Duration.ofMinutes(duration);
         starTime = LocalDateTime.of(year, month, day, hour, minutes);        
     }
     
