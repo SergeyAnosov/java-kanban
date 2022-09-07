@@ -12,9 +12,10 @@ import java.util.List;
 public class Epic extends Task {
     private List<Integer> subTaskIds = new ArrayList<>();
     protected int epicId;
-    protected LocalDateTime endTime;
+    
     protected LocalDateTime startTime;
     protected long duration;
+    protected LocalDateTime endTime;
 
     public Epic(String name, Status status, String extraInfo) {
         this.name = name;
@@ -28,11 +29,29 @@ public class Epic extends Task {
        this.startTime = startTime;
     }
     
-     public void setEndTime(LocalDateTime endTime) {
-       this.endTime = endTime;
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
     
-    public void setDuration(long duration) {
+     public LocalDateTime calculateEpicEndTime(List<SubTask> list) {
+        LocalDateTime endTime = LocalDateTime.of(3000,0,0,0,0);
+        for (SubTask sub : list) {
+            if (sub.getEndTime().isBefore(endTime)) {
+                endTime = sub.getEndTime();
+            }
+        }
+       return endTime;
+    }
+    
+    public Duration calculateEpicDuration(List<SubTask> list) {
+        Duration epicDuration;
+        for (SubTask sub : list) {
+            epicDuration += sub.getDuration();
+        }
+        return epicDuration;
+    }
+    
+    public void getDuration(long duration) {
        this.duration = duration;
     }   
     
