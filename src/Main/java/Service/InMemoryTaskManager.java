@@ -22,6 +22,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, SubTask> subTasks = new HashMap<>();
     protected Map<Integer, Epic> epics = new HashMap<>();
     public final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"); 
 
     @Override
     public Task getTaskById(int taskId) {
