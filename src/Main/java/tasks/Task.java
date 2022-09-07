@@ -14,7 +14,7 @@ public class Task {
     protected Status status;
     protected String extraInfo;
     private static int taskIdGenerator = 0; 
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"); 
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"); 
     
     protected LocalDateTime startTime;
     protected Duration duration;
@@ -27,8 +27,7 @@ public class Task {
         taskId = taskIdGenerator++;
         this.startTime = startTime;
         duration = Duration.ofMinutes(time);
-        starTime = LocalDateTime.of(year, month, day, hour, minutes);
-        endTime = startTime.plus(duration);
+        starTime = LocalDateTime.of(year, month, day, hour, minutes);        
     }
 
     public Task() {
@@ -38,7 +37,8 @@ public class Task {
         return startTime.format(formatter);
     }
 
-    public String getEndTime() {        
+    public String getEndTime() {
+        endTime = startTime.plus(duration);
         return endTime.format(fromatter);
     }
     
