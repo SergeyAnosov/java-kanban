@@ -33,6 +33,16 @@ public class Epic extends Task {
         this.endTime = endTime;
     }
     
+    public LocalDateTime calculateEpicStartTime(List<SubTask> list) {
+        LocalDateTime startTime = LocalDateTime.of(1000,0,0,0,0);
+        for (SubTask sub : list) {
+            if (sub.getStartTime().isAfter(startTime)) {
+                startTime = sub.getStartTime();
+            }
+        }
+       return startTime;
+    }
+    
      public LocalDateTime calculateEpicEndTime(List<SubTask> list) {
         LocalDateTime endTime = LocalDateTime.of(3000,0,0,0,0);
         for (SubTask sub : list) {
