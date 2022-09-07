@@ -19,26 +19,26 @@ public class Task {
     protected LocalDateTime startTime;
     protected Duration duration;    
 
-    public Task(String name, Status status, String extraInfo, int time, int year, int month, int day, int hour, int minutes) {
+    public Task(String name, Status status, String extraInfo, int duration, int year, int month, int day, int hour, int minutes) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
         this.startTime = startTime;
-        duration = Duration.ofMinutes(time);
+        this.duration = Duration.ofMinutes(duration);
         starTime = LocalDateTime.of(year, month, day, hour, minutes);        
     }
 
     public Task() {
     }
 
-    public String getStartTime() {               
-        return startTime.format(formatter);
+    public LocalDateTime getStartTime() {               
+        return startTime;
     }
 
-    public String getEndTime() {
+    public LocalDateTime getEndTime() {
         endTime = startTime.plus(duration);
-        return endTime.format(fromatter);
+        return endTime;
     }
     
     public Duration getDuration() {
