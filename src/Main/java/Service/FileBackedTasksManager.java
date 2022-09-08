@@ -37,8 +37,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         taskManager.addEpic(epic2);
         taskManager.addEpic(epic3);
 
-        taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, "30.12.2022 15:00", 2));
-        taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "30.09.2022 22:00", 2));
+        taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, "02.09.2022 15:00", 2));
+        taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "01.09.2022 22:00", 2));
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
@@ -54,7 +54,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         taskManager.getSubTaskById(5);
         taskManager.getSubTaskById(4);
 
-        System.out.print("История: ");
+        System.out.println("История: ");
         System.out.println(taskManager.getHistory());
         System.out.println("Файл создан и заполнен");
         System.out.println("_________________________________________________________________________________");
@@ -73,6 +73,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         System.out.println(fileBackedTasksManager.getSubTasks());
         System.out.println("Печатаем историю");
         System.out.println(fileBackedTasksManager.getHistory());
+
+        System.out.println("Выводим список по приоритету");
+        System.out.println(fileBackedTasksManager.getPrioritizedTasks());
+        taskManager.addSubTask(null);
     }
 
     @Override
@@ -194,6 +198,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 case "EPIC" -> {
                     Epic epic = new Epic(content[2], switchStatus(content[3]), content[4]);
                     epic.setEpicId(Integer.parseInt(content[0]));
+                    updateEpic(epic, epic.getId());
                     return epic;
                 }
                 case "SUB_TASK" -> {
@@ -244,7 +249,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
 
-    
     public static FileBackedTasksManager loadFromFile(File file) {
 
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(file);
@@ -254,15 +258,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             String s = br.readLine();
             while (br.ready()) {
                 String line = br.readLine();
+
                 if (line.isBlank()) {
                     String history = br.readLine();
                     List<Integer> listHistory = historyFromString(history);
-                    //int maxId = 0;
                     if (listHistory != null) {
                         for (Integer integer : listHistory) {
-                            //if (integer > maxId) {
-                                //maxId = integer;
-                            //}
+
                             // проверить в какой мапе находится ключ и исходя из этого создавать Task
                             if (fileBackedTasksManager.tasks.containsKey(integer)) {
                                 Task task = fileBackedTasksManager.getTaskById(integer);
@@ -272,20 +274,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                             } else if (fileBackedTasksManager.subTasks.containsKey(integer)) {
                                 SubTask subTask = fileBackedTasksManager.getSubTaskById(integer);
-                            }
-                           // Task.setTaskIdGenerator((maxId + 1));
+                            } // TODO неправильно считывает эпики
                         }
                     }
                 }
 
-                    Task task = fileBackedTasksManager.fromString(line);
-                    if (task != null) {
-                        switch (task.getTaskType()) {
-                            case TASK -> fileBackedTasksManager.tasks.put(task.getId(), task);
-                            case EPIC -> fileBackedTasksManager.epics.put(task.getId(), (Epic) task);
-                            case SUB_TASK -> fileBackedTasksManager.subTasks.put(task.getId(), (SubTask) task);
-                        }
+                Task task = fileBackedTasksManager.fromString(line);
+                if (task != null) {
+                    switch (task.getTaskType()) {
+                        //case TASK -> fileBackedTasksManager.tasks.put(task.getId(), task);
+                        case TASK -> fileBackedTasksManager.addTask(task);
+                        case EPIC -> fileBackedTasksManager.epics.put(task.getId(), (Epic) task);
+                        case SUB_TASK -> fileBackedTasksManager.subTasks.put(task.getId(), (SubTask) task);
                     }
+                }
 
             }
 

@@ -12,11 +12,8 @@ import tasks.Task;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> tasks = new HashMap<>();
@@ -73,15 +70,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addSubTask(SubTask subTask) {
-        Epic epic = epics.get(subTask.getEpicId());
-        if (epic == null) {
-            return;
-        }
+        if (subTask != null) {
+            Epic epic = epics.get(subTask.getEpicId());
+            if (epic == null) {
+                return;
+            }
 
-        subTasks.put(subTask.getId(), subTask);
-        epic.addSubtaskId(subTask.getId());
-        updateEpicStatus(epic);
-        updateEpic(epic, subTask.getEpicId());
+            subTasks.put(subTask.getId(), subTask);
+            epic.addSubtaskId(subTask.getId());
+            updateEpicStatus(epic);
+            epic.calculateEpicStartTime(getSubTasksFromEpic(epic.getId()));
+            epic.calculateEpicEndTime(getSubTasksFromEpic(epic.getId()));
+            //updateEpic(epic, subTask.getEpicId());
+        }
     }
 
     @Override
@@ -100,27 +101,6 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> getSubTasks() {
         Collection<SubTask> values = subTasks.values();
         return new ArrayList<>(values);
-    }
-    
-    public LocalDateTime getEpicStartTime(Epic epic) {
-        List<SubTask> list = getSubTasksFromEpic(epic.getId());       
-        LocalDateTime startTime = epic.calculateEpicStartTime(list);
-        epic.setStartTime(startTime);
-        return startTime;
-    }
-
-    private Duration getDuration(Epic epic) {
-            List<SubTask> list = getSubTasksFromEpic(epic.getId());
-            Duration epicDuration = epic.calculateEpicDuration(list);
-            epic.setDuration(epicDuration);
-        return epicDuration;        
-    }
-
-    public LocalDateTime getEpicEndTime(Epic epic) {            
-            List<SubTask> list = getSubTasksFromEpic(epic.getId());
-            LocalDateTime endTime = epic.calculateEpicEndTime(list);
-            epic.setEndTime(endTime);
-        return endTime;
     }
 
     @Override
@@ -199,7 +179,8 @@ public class InMemoryTaskManager implements TaskManager {
             int epicId = subTask.getEpicId();
             Epic epic = getEpic(epicId);
             updateEpicStatus(epic);
-            updateEpic(epic, epicId);
+            epic.calculateEpicStartTime(getSubTasksFromEpic(epic.getId()));
+            epic.calculateEpicEndTime(getSubTasksFromEpic(epic.getId()));
         }
         historyManager.remove(subTaskId);
     }
@@ -211,12 +192,14 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic, int epicId) {
-        LocalDateTime epicStartTime = getEpicStartTime(epic);
+        /*LocalDateTime epicStartTime = getEpicStartTime(epic);
         LocalDateTime epicEndTime = getEpicEndTime(epic);
+
         Duration epicDuration = getDuration(epic);
+
         epic.setStartTime(epicStartTime);
         epic.setEndTime(epicEndTime);
-        epic.setDuration(epicDuration);
+        epic.setDuration(epicDuration);*/
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -250,25 +233,34 @@ public class InMemoryTaskManager implements TaskManager {
     }
     
     public Set<Task> getPrioritizedTasks() {
-        Comparator<Task> comparator = new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                if (o1.getStartTime() != null && o2.getStartTime() != null) {
-                    return o1.getStarTime().compareTo(o2.getStartTime());
-                } else if (o1.getStartTime() == null) {
-                    return 1;
-                } else if (o2.getStarTime() == null) {
-                    return -1;
-                }
-                rerurn 0;
-            } 
-        }
-        
-        
+        Comparator<Task> comparator = (o1, o2) -> {
+            if (o1.getStartTime() != null && o2.getStartTime() != null) {
+                return o1.getStartTime().compareTo(o2.getStartTime());
+            } else if (o1.getStartTime() == null) {
+                return 1;
+            } else if (o2.getStartTime() == null) {
+                return -1;
+            }
+            return 0;
+        };
+
+        Set<Task> sortedTasks = new TreeSet<>(comparator);
+
+        List<Task> tasksList = tasks.values().stream().toList();
+        List<SubTask> subTasksList = subTasks.values().stream().toList();
+        List<Epic> epicsList = epics.values().stream().toList();
+
+        sortedTasks.addAll(tasksList);
+        sortedTasks.addAll(subTasksList);
+        sortedTasks.addAll(epicsList);
+
+        return sortedTasks;
     }
+
+
+}
     
    
     
 
 
-}

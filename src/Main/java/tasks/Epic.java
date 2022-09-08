@@ -7,8 +7,6 @@ import constants.TaskType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Epic extends Task {
@@ -36,42 +34,38 @@ public class Epic extends Task {
         this.duration = duration;
     }
     
-    public LocalDateTime calculateEpicStartTime(List<SubTask> list) {       
-        if (list.isEmpty) {            
-            return null;
-        } else {
-            LocalDateTime startTime = LocalDateTime.of(3000,1,1,0,0);
+    public void calculateEpicStartTime(List<SubTask> list) {
+        if (startTime == null) {
+            startTime = LocalDateTime.of(3000, 1, 1, 0, 0);
+        }
+        if (!list.isEmpty()) {
             for (SubTask subtask : list) {
                 if (subtask.getStartTime().isBefore(startTime)) {
                     startTime = subtask.getStartTime();
                 }
             }
-            return startTime;
+        } else {
+            startTime = null;
         }
-         return null;
     }
     
-     public LocalDateTime calculateEpicEndTime(List<SubTask> list) {
-        if (list.isEmpty) {            
-            return null;
-        } else {
-            LocalDateTime endTime = LocalDateTime.of(1000,1,1,0,0);
+     public void calculateEpicEndTime(List<SubTask> list) {
+        if (endTime == null) {
+            endTime = startTime;
+        }
+        if (!list.isEmpty()) {
             for (SubTask subtask : list) {
                 if (subtask.getEndTime().isAfter(endTime)) {
                     endTime = subtask.getEndTime();
                 }
             }
-            return endTime;
         }
-       return null;
     }
     
-    public Duration calculateEpicDuration() {
+    public void calculateEpicDuration() {
         if (startTime != null && endTime != null) {        
-        Duration epicDuration = Duration.between(startTime, endTime);        
-        return epicDuration;
+        duration = Duration.between(startTime, endTime);
         }
-        return null;
     }
     
     public int getId() {
@@ -96,7 +90,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "E" + epicId;
+        return "E" + epicId + " " +startTime +  " " + endTime;
     }
 
     public TaskType getTaskType() {
