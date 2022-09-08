@@ -66,12 +66,12 @@ public class Epic extends Task {
        return null;
     }
     
-    public Duration calculateEpicDuration(List<SubTask> list) {
-        Duration epicDuration = Duration.ofMinutes(0);
-        for (SubTask sub : list) {
-            epicDuration = epicDuration.plus(sub.getDuration());
-        }
+    public Duration calculateEpicDuration() {
+        if (startTime != null && endTime != null) {        
+        Duration epicDuration = Duration.between(startTime, endTime);        
         return epicDuration;
+        }
+        return null;
     }
     
     public int getId() {
