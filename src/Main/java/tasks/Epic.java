@@ -36,37 +36,34 @@ public class Epic extends Task {
         this.duration = duration;
     }
     
-    public LocalDateTime calculateEpicStartTime(List<SubTask> list) {
-
-
-
-            Comparator<SubTask> comparator = Comparator.comparing(Task::getStartTime);
-            list.sort(comparator);
-
-        /*LocalDateTime startTime = LocalDateTime.of(3000,1,1,0,0);
-        for (SubTask sub : list) {
-            if (sub.getStartTime().isBefore(startTime)) {
-                LocalDateTime epicTime = sub.getStartTime();
+    public LocalDateTime calculateEpicStartTime(List<SubTask> list) {       
+        if (list.isEmpty) {            
+            return null;
+        } else {
+            LocalDateTime startTime = LocalDateTime.of(3000,1,1,0,0);
+            for (SubTask subtask : list) {
+                if (subtask.getStartTime().isBefore(startTime)) {
+                    startTime = subtask.getStartTime();
+                }
             }
-            }*/
-            SubTask sub1 = list.get(0);
-            LocalDateTime start = sub1.getStartTime();
-
-                return start;
-
-
-
-
+            return startTime;
+        }
+         return null;
     }
     
      public LocalDateTime calculateEpicEndTime(List<SubTask> list) {
-        LocalDateTime endTime = LocalDateTime.of(1000,1,1,0,0);
-        for (SubTask sub : list) {
-            if (sub.getEndTime().isAfter(endTime)) {
-                endTime = sub.getEndTime();
+        if (list.isEmpty) {            
+            return null;
+        } else {
+            LocalDateTime endTime = LocalDateTime.of(1000,1,1,0,0);
+            for (SubTask subtask : list) {
+                if (subtask.getEndTime().isAfter(endTime)) {
+                    endTime = subtask.getEndTime();
+                }
             }
+            return endTime;
         }
-       return endTime;
+       return null;
     }
     
     public Duration calculateEpicDuration(List<SubTask> list) {
