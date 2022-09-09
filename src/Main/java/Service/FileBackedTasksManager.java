@@ -274,11 +274,23 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         try (Reader fileReader = new FileReader(file);
              BufferedReader br = new BufferedReader(fileReader)) {
-            String s = br.readLine();
+            //String s = br.readLine();
+            br.readLine();
             while (br.ready()) {
                 String line = br.readLine();
+                if (!line.isBlank()) {
+                    
+                    Task task = fileBackedTasksManager.fromString(line);
+                    if (task != null) {
+                        switch (task.getTaskType()) {
 
-                if (line.isBlank()) {
+                            case TASK -> fileBackedTasksManager.addTask(task);
+                            case EPIC -> fileBackedTasksManager.addEpic((Epic) task);
+                            case SUB_TASK -> fileBackedTasksManager.addSubTask((SubTask) task);
+                        }
+                    }                
+                } else {                   
+                    
                     String history = br.readLine();
                     List<Integer> listHistory = historyFromString(history);
                     if (listHistory != null) {
@@ -293,23 +305,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                             } else if (fileBackedTasksManager.subTasks.containsKey(integer)) {
                                 SubTask subTask = fileBackedTasksManager.getSubTaskById(integer);
-                            } // TODO неправильно считывает эпики
+                            } // TODO неправильно считывает эпики (изменил строки 287-290. Проверить)
                         }
                     }
                 }
-
-                Task task = fileBackedTasksManager.fromString(line);
-                if (task != null) {
-                    switch (task.getTaskType()) {
-                        //case TASK -> fileBackedTasksManager.tasks.put(task.getId(), task);
-                        case TASK -> fileBackedTasksManager.addTask(task);
-                        case EPIC -> fileBackedTasksManager.epics.put(task.getId(), (Epic) task);
-                        case SUB_TASK -> fileBackedTasksManager.subTasks.put(task.getId(), (SubTask) task);
-                    }
-                }
-
             }
-
 
         } catch (IOException e) {
             throw new ManagerSaveException("error");
