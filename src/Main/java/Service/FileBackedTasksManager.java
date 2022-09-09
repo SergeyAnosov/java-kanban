@@ -76,7 +76,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         System.out.println("Выводим список по приоритету");
         System.out.println(fileBackedTasksManager.getPrioritizedTasks());
-        taskManager.addSubTask(null);
     }
 
     @Override
@@ -193,7 +192,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 case "TASK" -> {
                     String name = content[2];
                     Status status = switchStatus(content[3]);
-                    Strin description = content[4];
+                    String description = content[4];
                     int duration = Integer.parseInt(content[5]);
                     String startTime = content[6];
                     int taskId = Integer.parseInt(content[0]);
@@ -205,7 +204,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 case "EPIC" -> {
                     String name = content[2];
                     Status status = switchStatus(content[3]);
-                    Strin description = content[4];
+                    String description = content[4];
                     int epicId = Integer.parseInt(content[0]);
                     
                     Epic epic = new Epic(name, status, description);                   
@@ -215,7 +214,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 case "SUB_TASK" -> {
                     String name = content[2];
                     Status status = switchStatus(content[3]);
-                    Strin description = content[4];
+                    String description = content[4];
                     int duration = Integer.parseInt(content[5]);
                     String startTime = content[6];
                     int subtaskId = Integer.parseInt(content[0]);

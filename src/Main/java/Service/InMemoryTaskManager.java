@@ -8,19 +8,26 @@ import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 
-
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
+
 
 public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> tasks = new HashMap<>();
     protected Map<Integer, SubTask> subTasks = new HashMap<>();
     protected Map<Integer, Epic> epics = new HashMap<>();
-    public final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
     protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+    protected Set<Task> sortedTasks = new TreeSet<>((o1, o2) -> {
+        if ((o1.getStartTime() == null) && (o2.getStartTime() != null)) {
+            return 1;
+        } else if ((o1.getStartTime() != null) && (o2.getStartTime() == null))  {
+            return -1;
+        } else if ((o1.getStartTime() == null) && (o2.getStartTime() == null))  {
+            return 0;
+        } else {return o1.getStartTime().compareTo(o2.getStartTime());}
+    });
 
     @Override
     public Task getTaskById(int taskId) {
@@ -58,6 +65,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
+        sortedTasks.add(task);
         tasks.put(task.getId(), task);
     }
 
@@ -76,12 +84,12 @@ public class InMemoryTaskManager implements TaskManager {
                 return;
             }
 
+            sortedTasks.add(subTask);
             subTasks.put(subTask.getId(), subTask);
             epic.addSubtaskId(subTask.getId());
             updateEpicStatus(epic);
             epic.calculateEpicStartTime(getSubTasksFromEpic(epic.getId()));
             epic.calculateEpicEndTime(getSubTasksFromEpic(epic.getId()));
-            //updateEpic(epic, subTask.getEpicId());
         }
     }
 
@@ -134,12 +142,18 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllTasks() {
+        for (Task task : tasks.values()) {
+            sortedTasks.remove(task);
+        }
         tasks.clear();
     }
 
     @Override
     public void removeAllSubTasks() {
         subTasks.clear();
+        for (SubTask sub : subTasks.values()) {
+            sortedTasks.remove(sub);
+        }
         for (Epic epic : epics.values()) {
             epic.setSubTaskIds(new ArrayList<>());
             updateEpic(epic, epic.getId());
@@ -154,6 +168,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int taskId) {
         tasks.remove(taskId);
+        sortedTasks.remove(getTask(taskId));
         historyManager.remove(taskId);
     }
 
@@ -174,6 +189,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteSubTask(int subTaskId) {
         SubTask subTask = getSubTask(subTaskId);
+        sortedTasks.remove(subTask);
         subTasks.remove(subTaskId);
         if (subTask != null) {
             int epicId = subTask.getEpicId();
@@ -192,14 +208,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic, int epicId) {
-        /*LocalDateTime epicStartTime = getEpicStartTime(epic);
-        LocalDateTime epicEndTime = getEpicEndTime(epic);
-
-        Duration epicDuration = getDuration(epic);
-
-        epic.setStartTime(epicStartTime);
-        epic.setEndTime(epicEndTime);
-        epic.setDuration(epicDuration);*/
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -231,9 +239,11 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getHistory() {
         return historyManager.getHistory();
     }
-    
-    public Set<Task> getPrioritizedTasks() {
-        Comparator<Task> comparator = (o1, o2) -> {
+
+
+   /* public class TaskComparator implements Comparator<Task> {
+        @Override
+        public Comparator<Task> comparator = (o1, o2) -> {
             if (o1.getStartTime() != null && o2.getStartTime() != null) {
                 return o1.getStartTime().compareTo(o2.getStartTime());
             } else if (o1.getStartTime() == null) {
@@ -243,17 +253,9 @@ public class InMemoryTaskManager implements TaskManager {
             }
             return 0;
         };
+    }*/
 
-        Set<Task> sortedTasks = new TreeSet<>(comparator);
-
-        List<Task> tasksList = tasks.values().stream().toList();
-        List<SubTask> subTasksList = subTasks.values().stream().toList();
-        List<Epic> epicsList = epics.values().stream().toList();
-
-        sortedTasks.addAll(tasksList);
-        sortedTasks.addAll(subTasksList);
-        sortedTasks.addAll(epicsList);
-
+    public Set<Task> getPrioritizedTasks() {
         return sortedTasks;
     }
 
