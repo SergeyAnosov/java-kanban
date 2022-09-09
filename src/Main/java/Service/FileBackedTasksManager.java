@@ -191,19 +191,38 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             String[] content = value.split(",");
             switch (content[1]) {
                 case "TASK" -> {
-                    Task task = new Task(content[2], switchStatus(content[3]), content[4], Integer.parseInt(content[5]), content[6]);
-                    task.setId(Integer.parseInt(content[0]));
+                    String name = content[2];
+                    Status status = switchStatus(content[3]);
+                    Strin description = content[4];
+                    int duration = Integer.parseInt(content[5]);
+                    String startTime = content[6];
+                    int taskId = Integer.parseInt(content[0]);
+                    
+                    Task task = new Task(name, status, description, duration, startTime);
+                    task.setId(taskId);
                     return task;
                 }
                 case "EPIC" -> {
-                    Epic epic = new Epic(content[2], switchStatus(content[3]), content[4]);
-                    epic.setEpicId(Integer.parseInt(content[0]));
-                    updateEpic(epic, epic.getId());
+                    String name = content[2];
+                    Status status = switchStatus(content[3]);
+                    Strin description = content[4];
+                    int epicId = Integer.parseInt(content[0]);
+                    
+                    Epic epic = new Epic(name, status, description);                   
+                    epic.setEpicId(epicId);                    
                     return epic;
                 }
                 case "SUB_TASK" -> {
-                    SubTask subTask = new SubTask(content[2], switchStatus(content[3]), content[4], Integer.parseInt(content[5]), content[6], Integer.parseInt(content[7]));
-                    subTask.setSubTaskId(Integer.parseInt(content[0]));
+                    String name = content[2];
+                    Status status = switchStatus(content[3]);
+                    Strin description = content[4];
+                    int duration = Integer.parseInt(content[5]);
+                    String startTime = content[6];
+                    int subtaskId = Integer.parseInt(content[0]);
+                    int epicId = Integer.parseInt(content[7]);
+                    
+                    SubTask subTask = new SubTask(name, status, description, duration, startTime, epicId);
+                    subTask.setSubTaskId(subtaskId);
                     return subTask;
                 }
             }
