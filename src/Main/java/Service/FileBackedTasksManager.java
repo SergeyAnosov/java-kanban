@@ -28,8 +28,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         // этот блок нужен только для заполнения файла
         TaskManager taskManager = Managers.getDefaultBacked();
 
-        taskManager.addTask(new Task("Task0", Status.NEW, "extra0", 15, "15.09.2022 16:30"));
-        taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "77777777", 25, "10.09.2022 10:30"));
+        taskManager.addTask(new Task("Task0", Status.NEW, "extra0", 15, "10.09.2022 16:30"));
+        taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "77777777", 25, "11.09.2022 15:00"));
 
         Epic epic2 = new Epic("Epic2", Status.NEW, "extra2");
         Epic epic3 = new Epic("Epic3", Status.IN_PROGRESS, "extra3");
@@ -37,8 +37,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         taskManager.addEpic(epic2);
         taskManager.addEpic(epic3);
 
-        taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, "02.09.2022 15:00", 2));
-        taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "01.09.2022 22:00", 2));
+        taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, "13.09.2022 15:00", 2));
+        taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "15.09.2022 22:00", 2));
 
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
@@ -291,6 +291,9 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 } else {                   
                     
                     String history = br.readLine();
+                    if (history == null) {
+                        return null;
+                    }
                     List<Integer> listHistory = historyFromString(history);
                     if (listHistory != null) {
                         for (Integer integer : listHistory) {

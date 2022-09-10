@@ -1,9 +1,0 @@
-id,type,name,status,description,duration,startTime,epicId
-0,TASK,Task0,NEW,extra0,15,15.09.2022 16:30
-1,TASK,Task1,IN_PROGRESS,77777777,25,10.09.2022 10:30
-2,EPIC,Epic2,IN_PROGRESS,extra2
-3,EPIC,Epic3,NEW,extra3
-4,SUB_TASK,SubTask7,NEW,extra1,10,02.09.2022 15:00,2
-5,SUB_TASK,SubTask8,IN_PROGRESS,extra2,30,01.09.2022 22:00,2
-
-1,0,3,2,5,4,
