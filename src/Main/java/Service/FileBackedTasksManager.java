@@ -27,53 +27,39 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         // этот блок нужен только для заполнения файла
         TaskManager taskManager = Managers.getDefaultBacked();
-
         taskManager.addTask(new Task("Task0", Status.NEW, "extra0", 15, "10.09.2022 16:30"));
         taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "77777777", 25, "11.09.2022 15:00"));
-
         Epic epic2 = new Epic("Epic2", Status.NEW, "extra2");
         Epic epic3 = new Epic("Epic3", Status.IN_PROGRESS, "extra3");
-
         taskManager.addEpic(epic2);
         taskManager.addEpic(epic3);
-
         taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, "13.09.2022 15:00", 2));
         taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "15.09.2022 22:00", 2));
-
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubTasks());
-
         taskManager.getTaskById(0);
         taskManager.getTaskById(1);
         taskManager.getTaskById(0);
-
         taskManager.getEpicById(3);
         taskManager.getEpicById(2);
-
         taskManager.getSubTaskById(5);
         taskManager.getSubTaskById(4);
-
         System.out.println("История: ");
         System.out.println(taskManager.getHistory());
         System.out.println("Файл создан и заполнен");
         System.out.println("_________________________________________________________________________________");
-
         // Этот блок зпускается для чтении истории из файла. Создаётся другой taskManager
-
         File file = new File("src/Main/resources/tasks.csv");
         FileBackedTasksManager fileBackedTasksManager = FileBackedTasksManager.loadFromFile(file);
-
         System.out.println("Печатаем списки задач");
         fileBackedTasksManager.updateEpic(epic2, epic2.getId());
         fileBackedTasksManager.updateEpic(epic3, epic3.getId());
-
         System.out.println(fileBackedTasksManager.getTasks());
         System.out.println(fileBackedTasksManager.getEpics());
         System.out.println(fileBackedTasksManager.getSubTasks());
         System.out.println("Печатаем историю");
         System.out.println(fileBackedTasksManager.getHistory());
-
         System.out.println("Выводим список по приоритету");
         System.out.println(fileBackedTasksManager.getPrioritizedTasks());
     }

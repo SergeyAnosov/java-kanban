@@ -27,7 +27,13 @@ public class Task {
         taskId = taskIdGenerator++;
         startTime = LocalDateTime.parse(time, formatter);
         this.duration = Duration.ofMinutes(duration);
+    }
 
+    public Task(int taskId, Status status, int duration, String time) {
+        this.taskId = taskId;
+        this.status = status;
+        this.duration = Duration.ofMinutes(duration);
+        startTime = LocalDateTime.parse(time, formatter);
     }
 
     public Task() {

@@ -21,6 +21,14 @@ public class Epic extends Task {
         epicId = getTaskIdGenerator();
         setTaskIdGenerator(epicId + 1);
     }
+
+    public Epic(int epicId, String name, Status status, String extraInfo) {
+        this.epicId = epicId;
+        this.name = name;
+        this.status = status;
+        this.extraInfo = extraInfo;
+    }
+
     
     public void setStartTime(LocalDateTime startTime) {
        this.startTime = startTime;
@@ -40,8 +48,10 @@ public class Epic extends Task {
         }
         if (!list.isEmpty()) {
             for (SubTask subtask : list) {
-                if (subtask.getStartTime().isBefore(startTime)) {
-                    startTime = subtask.getStartTime();
+                if (subtask != null) {
+                    if (subtask.getStartTime().isBefore(startTime)) {
+                        startTime = subtask.getStartTime();
+                    }
                 }
             }
         } else {
@@ -55,8 +65,10 @@ public class Epic extends Task {
         }
         if (!list.isEmpty()) {
             for (SubTask subtask : list) {
-                if (subtask.getEndTime().isAfter(endTime)) {
-                    endTime = subtask.getEndTime();
+                if (subtask != null) {
+                    if (subtask.getEndTime().isAfter(endTime)) {
+                        endTime = subtask.getEndTime();
+                    }
                 }
             }
         }

@@ -1,52 +1,35 @@
 import Interfaces.TaskManager;
+import constants.Status;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
 
 abstract class TaskManagerTest<T extends TaskManager> {
 
     public T taskManager;
-    
-    public void setUp() {
-        taskManager.add(new Task
-        taskManager.add(new Task       
-        taskManager.add(new Epic
-        taskManager.add(new SubTask 
-                        
-    
-     @BeforeEach
-      public void addManager() {
-          taskManager = new InMemoryTaskManager();
-          setUp();
+
+      public void setUp() {
+            Task task1 = new Task("Task0", Status.NEW, "extra0", 15, "11.09.2022 16:30");
+            Task task2 = new Task("Task1", Status.IN_PROGRESS, "77777777", 25, "10.09.2022 15:00");
+            taskManager.addTask(task1);
+            taskManager.addTask(task2);
+
+            Epic epic1 = new Epic("Epic2", Status.NEW, "extra2");
+            Epic epic2 = new Epic("Epic3", Status.IN_PROGRESS, "extra3");
+            taskManager.addEpic(epic1);
+            taskManager.addEpic(epic2);
+
+            SubTask subTask1 = new SubTask("SubTask7", Status.NEW, "extra1", 10, "13.09.2022 15:00", 2);
+            SubTask subTask2 = new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "15.09.2022 22:00", 2);
+            taskManager.addSubTask(subTask1);
+            taskManager.addSubTask(subTask2);
       }
-      
-      @Test
-        void getTaskTest() { //getTask 1.1        
-            Task testTask1 = taskManager.getTask(0); //кладём таск в список
-            Task task = taskManager.getTask(0);
-            Assertions.assertEquals(task, testTask1);
 
-            Task testTask1 = taskManager.getTask(2); // не создаём таск и проверяем на null //getTask 1.2
-            Assertions.assertNull(testTask1);
-       
-        }    
+      public void clearTaskManager() {
+         taskManager.removeAll();
+      }
 
-    @Test
-    void getTaskByIdTest() { //getTaskById + history 2.1
-        
-        Task testTask1 = taskManager.getTaskById(0); //кладём таск в список
-        List<Task> list = taskManager.historyManager.getHistory();
-        Task task = taskManager.getTasks().get(0);
-        Assertions.assertNotNull(list);
-        Assertions.assertEquals(task, testTask1);
-        Assertions.assertEquals(list.get(0), testTask1);
-        
-        Task testTask1 = taskManager.getTaskById(100);
-        List<Task> list = taskManager.historyManager.getHistory();
-        Assertions.assertTrue(list.isEmpty());        
-    }
 
-    
-                   
-                        
-    
 
 
 }

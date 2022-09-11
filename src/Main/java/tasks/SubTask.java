@@ -20,7 +20,22 @@ public class SubTask extends Task {
         this.duration = Duration.ofMinutes(duration);
         startTime = LocalDateTime.parse(time, formatter);        
     }
-    
+    public SubTask(int subTaskId, String name, Status status, int epicId) {
+        this.subTaskId = subTaskId;
+        this.name = name;
+        this.status = status;
+        this.epicId = epicId;
+    }
+
+    public SubTask(int subTaskId, String name, Status status, int duration, String time, int epicId) {
+        this.subTaskId = subTaskId;
+        this.name = name;
+        this.status = status;
+        this.epicId = epicId;
+        startTime = LocalDateTime.parse(time, formatter);
+        this.duration = Duration.ofMinutes(duration);
+    }
+
     public int getId() {
         return subTaskId;
     }

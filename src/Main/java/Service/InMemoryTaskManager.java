@@ -65,7 +65,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
-
         if (validate(task, sortedTasks)) {
             sortedTasks.add(task);
             tasks.put(task.getId(), task);
@@ -74,10 +73,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addEpic(Epic epic) {
+        if (epic != null) {
             int epicId = epic.getId();
             epics.put(epicId, epic);
             updateEpicStatus(epic);
-
+        } else {
+            return;
+        }
     }
 
     @Override
@@ -150,16 +152,19 @@ public class InMemoryTaskManager implements TaskManager {
     public void removeAllTasks() {
         for (Task task : tasks.values()) {
             sortedTasks.remove(task);
+            historyManager.remove(task.getId());
         }
+
         tasks.clear();
     }
 
     @Override
     public void removeAllSubTasks() {
-        subTasks.clear();
         for (SubTask sub : subTasks.values()) {
             sortedTasks.remove(sub);
+            historyManager.remove(sub.getId());
         }
+        subTasks.clear();
         for (Epic epic : epics.values()) {
             epic.setSubTaskIds(new ArrayList<>());
             updateEpic(epic, epic.getId());
@@ -168,14 +173,26 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeAllEpics() {
+        for (Epic epic : epics.values()) {
+            historyManager.remove(epic.getId());
+        }
         epics.clear();
-    }   
+    }
+
+    @Override
+    public void removeAll() {
+        removeAllTasks();
+        removeAllEpics();
+        removeAllSubTasks();
+        Task.setTaskIdGenerator(0);
+    }
 
     @Override
     public void deleteTask(int taskId) {
-        tasks.remove(taskId);
-        sortedTasks.remove(getTask(taskId));
         historyManager.remove(taskId);
+        sortedTasks.remove(getTask(taskId));
+        tasks.remove(taskId);
+        Task.setTaskIdGenerator(Task.getTaskIdGenerator() - 1);
     }
 
     @Override
@@ -184,36 +201,50 @@ public class InMemoryTaskManager implements TaskManager {
         List<SubTask> subs = getSubTasksFromEpic(epicId);
 
         for (SubTask sub : subs) {
-            historyManager.remove(sub.getId());
-            deleteSubTask(sub.getId());
-            updateEpic(epic, epicId);
+                historyManager.remove(sub.getId());
+                deleteSubTask(sub.getId());
+                updateEpic(epic, epicId);
         }
         historyManager.remove(epicId);
         epics.remove(epicId);
+        Task.setTaskIdGenerator(Task.getTaskIdGenerator() - 1);
     }
 
     @Override
     public void deleteSubTask(int subTaskId) {
         SubTask subTask = getSubTask(subTaskId);
+        if (subTask == null) {
+            return;
+        } else {
         sortedTasks.remove(subTask);
         subTasks.remove(subTaskId);
-        if (subTask != null) {
+
             int epicId = subTask.getEpicId();
             Epic epic = getEpic(epicId);
+            List<Integer> subTaskIds = epic.getSubTaskIds();
+            subTaskIds.remove(subTaskIds.indexOf(subTaskId));
+            epic.setSubTaskIds(subTaskIds);
             updateEpicStatus(epic);
             epic.calculateEpicStartTime(getSubTasksFromEpic(epic.getId()));
             epic.calculateEpicEndTime(getSubTasksFromEpic(epic.getId()));
         }
         historyManager.remove(subTaskId);
+        Task.setTaskIdGenerator(Task.getTaskIdGenerator() - 1);
     }
 
     @Override
     public void updateTask(Task task, int taskId) {
+        if (task == null) {
+            return;
+        }
         tasks.put(taskId, task);
     }
 
     @Override
     public void updateEpic(Epic epic, int epicId) {
+        if (epic == null) {
+            return;
+        }
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -237,6 +268,8 @@ public class InMemoryTaskManager implements TaskManager {
                 SubTask subTask = getSubTask(integer);
                 subTaskList.add(subTask);
             }
+        } else {
+            return null;
         }
         return subTaskList;
     }
@@ -253,6 +286,9 @@ public class InMemoryTaskManager implements TaskManager {
     public <T extends Task> boolean validate(T task, TreeSet<T> sortedTasks) {
         if (task == null) {
             return false;
+        }
+        if (task.getStartTime() == null && task.getEndTime() == null) {
+            return true;
         }
          if (sortedTasks.isEmpty()) { // если задач ещё нет, то можно любое время
             return true;
