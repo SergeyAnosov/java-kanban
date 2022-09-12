@@ -20,7 +20,7 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static TaskManager getDefaultBacked() {
-        return new FileBackedTasksManager(new File("src/Main/resources/tasks.csv"));
+    public static TaskManager getDefaultBacked(String pathname) {
+        return new FileBackedTasksManager(new File(pathname));
     }
 }

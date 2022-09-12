@@ -105,6 +105,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getTasks() {
         Collection<Task> values = tasks.values();
         return new ArrayList<>(values);
+
     }
 
     @Override

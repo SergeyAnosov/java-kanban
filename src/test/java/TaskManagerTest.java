@@ -7,6 +7,7 @@ import tasks.Task;
 abstract class TaskManagerTest<T extends TaskManager> {
 
     public T taskManager;
+    public T getTaskManagerFailBacked;
 
       public void setUp() {
             Task task1 = new Task("Task0", Status.NEW, "extra0", 15, "11.09.2022 16:30");
