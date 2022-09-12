@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface TaskManager {
 
-
     void addTask(Task task);
 
     void addSubTask(SubTask subTask);
@@ -58,9 +57,4 @@ public interface TaskManager {
     Epic getEpicById(int epicId);
 
     SubTask getSubTaskById(int subTaskId);
-
-
-
-
-
 }
