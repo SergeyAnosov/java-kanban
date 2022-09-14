@@ -1,12 +1,12 @@
-package Utils;
+package utils;
 
 
 
-import Interfaces.HistoryManager;
-import Interfaces.TaskManager;
-import Service.FileBackedTasksManager;
-import Service.InMemoryHistoryManager;
-import Service.InMemoryTaskManager;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
+import service.FileBackedTasksManager;
+import service.InMemoryHistoryManager;
+import service.InMemoryTaskManager;
 
 import java.io.File;
 

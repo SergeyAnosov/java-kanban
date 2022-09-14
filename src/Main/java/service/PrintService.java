@@ -1,4 +1,4 @@
-package Service;
+package service;
 
 import tasks.Epic;
 import tasks.SubTask;

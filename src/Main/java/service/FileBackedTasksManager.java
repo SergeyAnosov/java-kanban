@@ -1,8 +1,8 @@
-package Service;
+package service;
 
-import Interfaces.HistoryManager;
-import Interfaces.TaskManager;
-import Utils.Managers;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
+import utils.Managers;
 import constants.Status;
 import tasks.Epic;
 import tasks.SubTask;
@@ -105,7 +105,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         SubTask subTask = super.getSubTask(subTaskId);
         save();
         return subTask;
-
     }
 
     @Override
@@ -261,7 +260,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         try (Reader fileReader = new FileReader(file);
              BufferedReader br = new BufferedReader(fileReader)) {
-            //String s = br.readLine();
             br.readLine();
             while (br.ready()) {
                 String line = br.readLine();
@@ -288,13 +286,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
                             // проверить в какой мапе находится ключ и исходя из этого создавать Task
                             if (fileBackedTasksManager.tasks.containsKey(integer)) {
-                                Task task = fileBackedTasksManager.getTaskById(integer);
+                              fileBackedTasksManager.getTaskById(integer);
 
                             } else if (fileBackedTasksManager.epics.containsKey(integer)) {
-                                Epic epic = fileBackedTasksManager.getEpicById(integer);
+                               fileBackedTasksManager.getEpicById(integer);
 
                             } else if (fileBackedTasksManager.subTasks.containsKey(integer)) {
-                                SubTask subTask = fileBackedTasksManager.getSubTaskById(integer);
+                               fileBackedTasksManager.getSubTaskById(integer);
                             }
                         }
                     }

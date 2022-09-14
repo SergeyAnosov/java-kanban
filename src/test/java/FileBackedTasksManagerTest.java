@@ -1,12 +1,11 @@
-import Interfaces.TaskManager;
-import Service.FileBackedTasksManager;
+import interfaces.TaskManager;
+import service.FileBackedTasksManager;
 import org.junit.jupiter.api.Test;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

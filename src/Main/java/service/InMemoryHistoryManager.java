@@ -1,5 +1,6 @@
-package Service;
-import Interfaces.HistoryManager;
+package service;
+
+import interfaces.HistoryManager;
 import tasks.Task;
 
 import java.util.Map;
@@ -13,7 +14,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     protected Node first;
     protected Node last;
     CustomLinkedList taskList = new CustomLinkedList();
-   
+
     @Override
     public void addToHistoryMap(Task task) {
         if (task == null) {
@@ -32,7 +33,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return taskList.getTasks();
-        }
+    }
 
     public class CustomLinkedList {
 
@@ -64,8 +65,8 @@ public class InMemoryHistoryManager implements HistoryManager {
                 right.prev = left;
 
             } else if (remove == first) {
+                first.prev = null;
                 first = remove.next;
-                //first.prev = null;
             } else if (remove == last) {
                 last = remove.prev;
                 last.next = null;
@@ -82,10 +83,5 @@ public class InMemoryHistoryManager implements HistoryManager {
             }
             return list;
         }
-
-
-
     }
-
-
 }

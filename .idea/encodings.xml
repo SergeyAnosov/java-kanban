@@ -2,8 +2,8 @@
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/src/Main/java/Main.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Main/java/Service/FileBackedTasksManager.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/Main/java/constants/Status.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Main/java/service/FileBackedTasksManager.java" charset="windows-1251" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

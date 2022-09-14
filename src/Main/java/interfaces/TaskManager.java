@@ -1,4 +1,4 @@
-package Interfaces;
+package interfaces;
 
 import tasks.Epic;
 import tasks.SubTask;

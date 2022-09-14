@@ -1,4 +1,4 @@
-import Service.InMemoryTaskManager;
+import service.InMemoryTaskManager;
 import constants.Status;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -317,8 +317,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
         Set<Task> set = taskManager.getPrioritizedTasks();
         assertEquals(4, set.size());
         Optional<Task> first = set.stream().findFirst();
-        assertEquals(first.get().getStartTime(), LocalDateTime.parse("10.09.2022 15:00", formatter));
-
+        first.ifPresent(task -> assertEquals(task.getStartTime(), LocalDateTime.parse("10.09.2022 15:00", formatter)));
         clearTaskManager();
         assertTrue(taskManager.getPrioritizedTasks().isEmpty());
     }

@@ -1,8 +1,8 @@
-package Service;
+package service;
 
-import Interfaces.HistoryManager;
-import Interfaces.TaskManager;
-import Utils.Managers;
+import interfaces.HistoryManager;
+import interfaces.TaskManager;
+import utils.Managers;
 import constants.Status;
 import tasks.Epic;
 import tasks.SubTask;
@@ -77,8 +77,6 @@ public class InMemoryTaskManager implements TaskManager {
             int epicId = epic.getId();
             epics.put(epicId, epic);
             updateEpicStatus(epic);
-        } else {
-            return;
         }
     }
 
@@ -105,7 +103,6 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Task> getTasks() {
         Collection<Task> values = tasks.values();
         return new ArrayList<>(values);
-
     }
 
     @Override
@@ -155,7 +152,6 @@ public class InMemoryTaskManager implements TaskManager {
             sortedTasks.remove(task);
             historyManager.remove(task.getId());
         }
-
         tasks.clear();
     }
 
@@ -243,9 +239,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic, int epicId) {
-        if (epic == null) {
-            return;
-        }
         epics.put(epicId, epic);
         updateEpicStatus(epic);
     }
@@ -263,15 +256,11 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> getSubTasksFromEpic(int epicId) {
         List<SubTask> subTaskList = new ArrayList<>();
         Epic epic = epics.get(epicId);
-        if (epic != null) {
             List<Integer> list = epic.getSubTaskIds();
             for (Integer integer : list) {
                 SubTask subTask = getSubTask(integer);
                 subTaskList.add(subTask);
             }
-        } else {
-            return null;
-        }
         return subTaskList;
     }
 
