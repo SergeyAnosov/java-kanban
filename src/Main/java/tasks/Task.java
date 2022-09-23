@@ -14,32 +14,36 @@ public class Task {
     protected String name;
     protected Status status;
     protected String extraInfo;
-    private static int taskIdGenerator = 0; 
-    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-    
-    protected LocalDateTime startTime;
-    protected Duration duration;    
+    private static int taskIdGenerator = 0;
+    //protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-    public Task(String name, Status status, String extraInfo, int duration, String time) {
+    protected LocalDateTime startTime;
+    protected Duration duration;
+
+    public Task(String name, Status status, String extraInfo, int duration, LocalDateTime startTime) {
         this.name = name;
         this.status = status;
         this.extraInfo = extraInfo;
         taskId = taskIdGenerator++;
-        startTime = LocalDateTime.parse(time, formatter);
+        this.startTime = startTime;
         this.duration = Duration.ofMinutes(duration);
     }
 
-    public Task(int taskId, Status status, int duration, String time) {
+    public Task(int taskId, Status status, int duration, LocalDateTime startTime) {
         this.taskId = taskId;
         this.status = status;
         this.duration = Duration.ofMinutes(duration);
-        startTime = LocalDateTime.parse(time, formatter);
+        this.startTime = startTime;
     }
 
     public Task() {
     }
 
-    public LocalDateTime getStartTime() {               
+    public Task(int taskId) {
+        this.taskId = taskId;
+    }
+
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
@@ -49,7 +53,7 @@ public class Task {
         }
         return startTime.plus(duration);
     }
-    
+
     public Duration getDuration() {
         return duration;
     }
@@ -57,7 +61,7 @@ public class Task {
     public int getId() {
         return taskId;
     }
-    
+
     public void setId(int id) {
         taskId = id;
     }

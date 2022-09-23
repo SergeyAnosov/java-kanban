@@ -3,10 +3,10 @@ package service;
 import interfaces.HistoryManager;
 import tasks.Task;
 
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 

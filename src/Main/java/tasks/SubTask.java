@@ -8,18 +8,19 @@ import java.time.LocalDateTime;
 
 public class SubTask extends Task {
     protected int epicId;
-    protected int subTaskId;    
+    protected int subTaskId;
 
-    public SubTask(String name, Status status, String extraInfo, int duration, String time, int epicId) {
+    public SubTask(String name, Status status, String extraInfo, int duration, LocalDateTime startTime, int epicId) {
         this.name = name;
         this.status = status;
-        this.extraInfo = extraInfo;   
+        this.extraInfo = extraInfo;
         this.epicId = epicId;
         subTaskId = getTaskIdGenerator();
         setTaskIdGenerator(subTaskId + 1);
         this.duration = Duration.ofMinutes(duration);
-        startTime = LocalDateTime.parse(time, formatter);        
+        this.startTime = startTime;
     }
+
     public SubTask(int subTaskId, String name, Status status, int epicId) {
         this.subTaskId = subTaskId;
         this.name = name;
@@ -27,12 +28,12 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
-    public SubTask(int subTaskId, String name, Status status, int duration, String time, int epicId) {
+    public SubTask(int subTaskId, String name, Status status, int duration, LocalDateTime startTime, int epicId) {
         this.subTaskId = subTaskId;
         this.name = name;
         this.status = status;
         this.epicId = epicId;
-        startTime = LocalDateTime.parse(time, formatter);
+        this.startTime = startTime;
         this.duration = Duration.ofMinutes(duration);
     }
 
@@ -42,7 +43,7 @@ public class SubTask extends Task {
 
     public int getEpicId() {
         return epicId;
-    }    
+    }
 
     public void setSubTaskId(int subTaskId) {
         this.subTaskId = subTaskId;
@@ -56,5 +57,5 @@ public class SubTask extends Task {
     public TaskType getTaskType() {
         return TaskType.SUB_TASK;
     }
-    
+
 }

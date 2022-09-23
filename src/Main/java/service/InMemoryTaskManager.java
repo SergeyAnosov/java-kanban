@@ -1,12 +1,12 @@
 package service;
 
+import constants.Status;
 import interfaces.HistoryManager;
 import interfaces.TaskManager;
-import utils.Managers;
-import constants.Status;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+import utils.Managers;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -22,11 +22,13 @@ public class InMemoryTaskManager implements TaskManager {
     protected TreeSet<Task> sortedTasks = new TreeSet<>((o1, o2) -> {
         if ((o1.getStartTime() == null) && (o2.getStartTime() != null)) {
             return 1;
-        } else if ((o1.getStartTime() != null) && (o2.getStartTime() == null))  {
+        } else if ((o1.getStartTime() != null) && (o2.getStartTime() == null)) {
             return -1;
-        } else if ((o1.getStartTime() == null) && (o2.getStartTime() == null))  {
+        } else if ((o1.getStartTime() == null) && (o2.getStartTime() == null)) {
             return 0;
-        } else {return o1.getStartTime().compareTo(o2.getStartTime());}
+        } else {
+            return o1.getStartTime().compareTo(o2.getStartTime());
+        }
     });
 
     @Override
@@ -47,12 +49,12 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.addToHistoryMap(subTasks.get(subTaskId));
         return subTasks.get(subTaskId);
     }
-    
+
     @Override
     public Task getTask(int taskId) {
-            return tasks.get(taskId);
+        return tasks.get(taskId);
     }
-    
+
     @Override
     public Epic getEpic(int epicId) {
         return epics.get(epicId);
@@ -198,9 +200,9 @@ public class InMemoryTaskManager implements TaskManager {
         List<SubTask> subs = getSubTasksFromEpic(epicId);
 
         for (SubTask sub : subs) {
-                historyManager.remove(sub.getId());
-                deleteSubTask(sub.getId());
-                updateEpic(epic, epicId);
+            historyManager.remove(sub.getId());
+            deleteSubTask(sub.getId());
+            updateEpic(epic, epicId);
         }
         historyManager.remove(epicId);
         epics.remove(epicId);
@@ -213,8 +215,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (subTask == null) {
             return;
         } else {
-        sortedTasks.remove(subTask);
-        subTasks.remove(subTaskId);
+            sortedTasks.remove(subTask);
+            subTasks.remove(subTaskId);
 
             int epicId = subTask.getEpicId();
             Epic epic = getEpic(epicId);
@@ -256,11 +258,11 @@ public class InMemoryTaskManager implements TaskManager {
     public List<SubTask> getSubTasksFromEpic(int epicId) {
         List<SubTask> subTaskList = new ArrayList<>();
         Epic epic = epics.get(epicId);
-            List<Integer> list = epic.getSubTaskIds();
-            for (Integer integer : list) {
-                SubTask subTask = getSubTask(integer);
-                subTaskList.add(subTask);
-            }
+        List<Integer> list = epic.getSubTaskIds();
+        for (Integer integer : list) {
+            SubTask subTask = getSubTask(integer);
+            subTaskList.add(subTask);
+        }
         return subTaskList;
     }
 
@@ -280,17 +282,17 @@ public class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() == null && task.getEndTime() == null) {
             return true;
         }
-         if (sortedTasks.isEmpty()) { // если задач ещё нет, то можно любое время
+        if (sortedTasks.isEmpty()) { // если задач ещё нет, то можно любое время
             return true;
         } else {
-             for (Task t : sortedTasks) {
-                 if (task.getStartTime().isBefore(t.getStartTime())) { // если начало раньше
-                     return task.getEndTime().isBefore(t.getStartTime()); // то закончится должен до начала нового
-                 } else if (task.getStartTime().isAfter(t.getStartTime())) { // если начинается после
-                     return  task.getStartTime().isAfter(t.getEndTime()); // то должен начинаться после окончания предыдущего
-                 }
-             }
-         }
+            for (Task t : sortedTasks) {
+                if (task.getStartTime().isBefore(t.getStartTime())) { // если начало раньше
+                    return task.getEndTime().isBefore(t.getStartTime()); // то закончится должен до начала нового
+                } else if (task.getStartTime().isAfter(t.getStartTime())) { // если начинается после
+                    return task.getStartTime().isAfter(t.getEndTime()); // то должен начинаться после окончания предыдущего
+                }
+            }
+        }
         return false;
     }
 }

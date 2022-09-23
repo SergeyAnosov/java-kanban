@@ -17,7 +17,7 @@ public class Epic extends Task {
     public Epic(String name, Status status, String extraInfo) {
         this.name = name;
         this.status = status;
-        this.extraInfo = extraInfo;        
+        this.extraInfo = extraInfo;
         epicId = getTaskIdGenerator();
         setTaskIdGenerator(epicId + 1);
     }
@@ -29,11 +29,11 @@ public class Epic extends Task {
         this.extraInfo = extraInfo;
     }
 
-    
+
     public void setStartTime(LocalDateTime startTime) {
-       this.startTime = startTime;
+        this.startTime = startTime;
     }
-    
+
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
@@ -41,7 +41,7 @@ public class Epic extends Task {
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
-    
+
     public void calculateEpicStartTime(List<SubTask> list) {
         if (startTime == null) {
             startTime = LocalDateTime.of(3000, 1, 1, 0, 0);
@@ -58,8 +58,8 @@ public class Epic extends Task {
             startTime = null;
         }
     }
-    
-     public void calculateEpicEndTime(List<SubTask> list) {
+
+    public void calculateEpicEndTime(List<SubTask> list) {
         if (endTime == null) {
             endTime = startTime;
         }
@@ -73,13 +73,13 @@ public class Epic extends Task {
             }
         }
     }
-    
+
     public void calculateEpicDuration() {
-        if (startTime != null && endTime != null) {        
-        duration = Duration.between(startTime, endTime);
+        if (startTime != null && endTime != null) {
+            duration = Duration.between(startTime, endTime);
         }
     }
-    
+
     public int getId() {
         return epicId;
     }
@@ -102,7 +102,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "E" + epicId + " " +startTime +  " " + endTime;
+        return "E" + epicId + " " + startTime + " " + endTime;
     }
 
     public TaskType getTaskType() {
