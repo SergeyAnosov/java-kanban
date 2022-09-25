@@ -1,8 +1,7 @@
 package http;
-import com.google.gson.Gson;
-import service.FileBackedTasksManager;
 import service.ManagerSaveException;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -14,7 +13,7 @@ public class KVTaskClient {
     private  String apiToken;
 
     public KVTaskClient() {
-        url = "http://localhost:8080/";
+        url = "http://localhost:8078/";
         apiToken = register(url);
     }
 
@@ -52,5 +51,21 @@ public class KVTaskClient {
             throw new RuntimeException();
         }
     }
+    public String load (String key) throws IOException {
 
+            try {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .GET()
+                        .uri(URI.create(url + "load/" + key + "?API_TOKEN=" + apiToken))
+                        .build();
+                HttpResponse.BodyHandler<String> handler = HttpResponse.BodyHandlers.ofString();
+                HttpResponse<String> response = client.send(request, handler);
+                return response.body();
+
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException();
+            }
+        }
 }

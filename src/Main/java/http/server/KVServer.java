@@ -16,7 +16,7 @@ import com.sun.net.httpserver.HttpServer;
  * Постман: https://www.getpostman.com/collections/a83b61d9e1c81c10575c
  */
 public class KVServer {
-    public static final int PORT = 8080;
+    public static final int PORT = 8078;
     private  String apiToken;
     private  HttpServer server;
     private  Map<String, String> data = new HashMap<>();
@@ -29,13 +29,28 @@ public class KVServer {
         server.createContext("/load", this::load);
     }
 
-    public static void main(String[] args) throws IOException {
-        KVServer kvServer = new KVServer();
-        kvServer.start();
-    }
-
-    private void load(HttpExchange h) {
-        // TODO Добавьте получение значения по ключу
+    private void load(HttpExchange h) throws IOException {
+        try {
+            System.out.println("\n/load");
+            if (!hasAuth(h)) {
+                System.out.println("Запрос неавторизован, нужен параметр в query API_TOKEN со значением апи-ключа");
+                h.sendResponseHeaders(403, 0);
+                return;
+            }
+            if ("GET".equals(h.getRequestMethod())) {
+                String key = h.getRequestURI().getPath().substring("/load/".length());
+                if (!data.containsKey(key)) {
+                    System.out.println("Key пустой. Key указывается в пути: /load/{key}");
+                    h.sendResponseHeaders(400, 0);
+                    return;
+                }
+                sendText(h, data.get(key));
+                System.out.println("Key " + key + " успешно отправлено");
+                h.sendResponseHeaders(200, 0);
+                }
+        } finally {
+            h.close();
+        }
     }
 
     public void save(HttpExchange h) throws IOException {
@@ -90,6 +105,10 @@ public class KVServer {
         System.out.println("Открой в браузере http://localhost:" + PORT + "/");
         System.out.println("API_TOKEN: " + apiToken);
         server.start();
+    }
+
+    public void stop() {
+        server.stop(5);
     }
 
     private String generateApiToken() {

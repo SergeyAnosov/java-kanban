@@ -3,7 +3,7 @@ id,type,name,status,description,duration,startTime,epicId
 1,TASK,Task1,IN_PROGRESS,77777777,25,11.09.2022 15:00
 2,EPIC,Epic2,IN_PROGRESS,extra2
 3,EPIC,Epic3,NEW,extra3
-4,SUB_TASK,SubTask7,NEW,extra1,10,13.09.2022 15:00,2
-5,SUB_TASK,SubTask8,IN_PROGRESS,extra2,30,15.09.2022 22:00,2
+4,SUB_TASK,SubTask4,NEW,extra1,10,13.09.2022 15:00,2
+5,SUB_TASK,SubTask5,IN_PROGRESS,extra2,30,15.09.2022 22:00,2
 
-1,0,3,2,5,4,
+0,1,2,3,4,5,

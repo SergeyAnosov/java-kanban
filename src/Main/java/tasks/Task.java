@@ -6,7 +6,7 @@ import constants.TaskType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Objects;
 
 public class Task {
@@ -15,7 +15,6 @@ public class Task {
     protected Status status;
     protected String extraInfo;
     private static int taskIdGenerator = 0;
-    //protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     protected LocalDateTime startTime;
     protected Duration duration;
@@ -114,6 +113,7 @@ public class Task {
     @Override
     public String toString() {
         return "T" + taskId;
+
     }
 
     public static int getTaskIdGenerator() {

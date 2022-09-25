@@ -27,19 +27,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         this.file = file;
     }
 
-    public static void main(String[] args) {
+
+   /* public static void main(String[] args) {
 
         // этот блок нужен только для заполнения файла
         String pathname = "src/Main/resources/tasks.csv";
         TaskManager taskManager = Managers.getDefaultBacked(pathname);
         taskManager.addTask(new Task("Task0", Status.NEW, "extra0", 15, LocalDateTime.parse("10.09.2022 16:30",formatter)));
-        //taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "77777777", 25, "11.09.2022 15:00"));
+        taskManager.addTask(new Task("Task1", Status.IN_PROGRESS, "77777777", 25, LocalDateTime.parse("11.09.2022 15:00",formatter)));
         Epic epic2 = new Epic("Epic2", Status.NEW, "extra2");
         Epic epic3 = new Epic("Epic3", Status.IN_PROGRESS, "extra3");
         taskManager.addEpic(epic2);
         taskManager.addEpic(epic3);
-        //taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, "13.09.2022 15:00", 2));
-        //taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, "15.09.2022 22:00", 2));
+        taskManager.addSubTask(new SubTask("SubTask7", Status.NEW, "extra1", 10, LocalDateTime.parse("13.09.2022 15:00",formatter), 2));
+        taskManager.addSubTask(new SubTask("SubTask8", Status.IN_PROGRESS, "extra2", 30, LocalDateTime.parse("15.09.2022 22:00",formatter), 2));
         System.out.println(taskManager.getTasks());
         System.out.println(taskManager.getEpics());
         System.out.println(taskManager.getSubTasks());
@@ -67,7 +68,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         System.out.println(fileBackedTasksManager.getHistory());
         System.out.println("Выводим список по приоритету");
         System.out.println(fileBackedTasksManager.getPrioritizedTasks());
-    }
+    }*/
 
     @Override
     public void addTask(Task task) {
@@ -75,18 +76,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             super.addTask(task);
             save();
         }
+
     }
 
     @Override
     public void addEpic(Epic epic) {
         super.addEpic(epic);
         save();
-    }
-
-    @Override
-    public List<Task> getHistory() {
-        save();
-        return super.getHistory();
     }
 
     @Override
@@ -128,7 +124,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         save();
     }
 
-    private void save() {
+    protected void save() {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
 

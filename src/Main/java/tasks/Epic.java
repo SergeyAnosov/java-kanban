@@ -102,7 +102,8 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "E" + epicId + " " + startTime + " " + endTime;
+        return "E" +
+                 epicId;
     }
 
     public TaskType getTaskType() {
