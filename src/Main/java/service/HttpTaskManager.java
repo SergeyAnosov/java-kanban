@@ -2,6 +2,7 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import constants.TaskType;
 import http.KVTaskClient;
 import tasks.Epic;
 import tasks.SubTask;
@@ -10,7 +11,9 @@ import utils.Managers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class HttpTaskManager extends FileBackedTasksManager {
 
@@ -25,20 +28,30 @@ public class HttpTaskManager extends FileBackedTasksManager {
         try {
             String jsonTasks = kvTaskClient.load("tasks");
             String jsonEpics = kvTaskClient.load("epics");
-            String jsonSubTasks = kvTaskClient.load("subTasks");
+            String jsonSubTasks = kvTaskClient.load("subtasks");
+            String jsonHistory = kvTaskClient.load("history");
 
             tasks = gson.fromJson(jsonTasks, new TypeToken<HashMap<Integer, Task>>(){}.getType());
-            for (Task task : tasks.values()) {
-                super.getTaskById(task.getId()); // заполнение истории
-            }
+
             epics = gson.fromJson(jsonEpics, new TypeToken<HashMap<Integer, Epic>>(){}.getType());
-            for (Epic epic : epics.values()) { // заполнение истории
-                super.getEpicById(epic.getId());
-            }
+
             subTasks = gson.fromJson(jsonSubTasks, new TypeToken<HashMap<Integer, SubTask>>(){}.getType());
-            for (SubTask sub: subTasks.values()) { // заполнение истории
-                super.getSubTaskById(sub.getId());
+
+            List<Integer> history = gson.fromJson(jsonHistory, new TypeToken<List<Integer>>(){}.getType());
+            System.out.println(history);
+
+            for (Integer id : history) {
+                if (getAllTasksTreeMap().get(id).getTaskType() == TaskType.TASK) {
+                    getTaskById(id);
+                }
+                if (getAllTasksTreeMap().get(id).getTaskType() == TaskType.EPIC) {
+                    getEpicById(id);
+                }
+                if (getAllTasksTreeMap().get(id).getTaskType() == TaskType.SUB_TASK) {
+                    getSubTaskById(id);
+                }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,13 +66,13 @@ public class HttpTaskManager extends FileBackedTasksManager {
         kvTaskClient.save("epics", jsonEpics);
 
         String jsonSubTasks = gson.toJson(subTasks);
-        kvTaskClient.save("subTasks", jsonSubTasks);
+        kvTaskClient.save("subtasks", jsonSubTasks);
 
-        try {
-            String jsonHistory = gson.toJson(getHistory());
-            kvTaskClient.save("history", jsonHistory);
-        } catch (Exception e) {
-            e.printStackTrace();
+        List<Integer> historyId = new ArrayList<>();
+        for (Task task : getHistory()) {
+            historyId.add(task.getId());
         }
+        String jsonHistory = gson.toJson(historyId);
+        kvTaskClient.save("history", jsonHistory);
     }
 }

@@ -38,11 +38,13 @@ public class Main {
         manager.addSubTask(subTask4);
         manager.addSubTask(subTask5);
 
-        manager.getTaskById(0);
+
+        manager.getEpicById(2);
         manager.getTaskById(1);
         manager.getTaskById(0);
         manager.getEpicById(3);
-        manager.getEpicById(2);
+        manager.getTaskById(0);
+
         manager.getSubTaskById(5);
         manager.getSubTaskById(4);
 

@@ -296,6 +296,14 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return false;
     }
+
+    public Map<Integer, Task> getAllTasksTreeMap() {
+        Map<Integer, Task> map = new TreeMap<>();
+        map.putAll(tasks);
+        map.putAll(epics);
+        map.putAll(subTasks);
+        return map;
+    }
 }
     
    

@@ -9,8 +9,6 @@ R
 "src/test/java/TaskManagerTest.java,7\d\7d7faabd704bbf529c427731590697b478891b17
 N
 .idea/libraries/gson_2_9_0.xml,0\2\029650b3282cd1f60425c91dfbca85f872d242c9
-\
-,src/Main/java/interfaces/HistoryManager.java,f\a\fa65abfbc506fc605765943acaad81506c28359a
 _
 /src/Main/java/service/ManagerSaveException.java,c\7\c7ccb1c8c61ab14c8e5872ea4d13e952501eaa33
 X
