@@ -54,7 +54,6 @@ public class Main {
         System.out.println(manager.getSubTasks());
         System.out.println("История");
         System.out.println(manager.getHistory());
-        //manager.save();
         System.out.println("----------------------------------------------------");
 
         HttpTaskManager manager1 = new HttpTaskManager();
